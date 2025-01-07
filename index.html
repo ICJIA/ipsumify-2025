@@ -16,6 +16,14 @@
 
     <!-- Tailwind CSS for utility-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Add custom styles -->
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+        min-height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <!-- Root container for React application -->
@@ -87,37 +95,97 @@ HAVING total > 100;`,
       );
 
       /**
+       * Spinner component for loading state
+       * @returns {JSX.Element} Animated spinner
+       */
+      const Spinner = () => (
+        <div className="flex justify-center p-12">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+        </div>
+      );
+
+      /**
        * Main application component for the Lorem Markdown Generator
        * Handles all state management and content generation
        * @component
        */
       function LoremMarkdownGenerator() {
+        // Add loading state
+        const [isLoading, setIsLoading] = React.useState(false);
+
         // Add Latin words array at the top of the component
         const latinWords = [
-          "Aether", "Bellum", "Carmen", "Deus", "Enim", "Fatum", "Gloria", 
-          "Homo", "Idem", "Jugum", "Lumen", "Mare", "Nox", "Opus", "Pax",
-          "Quam", "Rex", "Sol", "Tempus", "Umbra", "Vita", "Vox", "Terra",
-          "Sanctum", "Virtus", "Manus", "Caelum", "Anima", "Stella", "Ventus",
-          "Magnus", "Patria", "Fortis", "Sapiens", "Veritas", "Natura", "Vis",
-          "Lex", "Fides", "Amor", "Mors", "Pater", "Mater", "Filius", "Roma",
-          "Diem", "Numen", "Corpus", "Annus", "Ignis", "Aqua", "Arbor", "Mons"
+          "Aether",
+          "Bellum",
+          "Carmen",
+          "Deus",
+          "Enim",
+          "Fatum",
+          "Gloria",
+          "Homo",
+          "Idem",
+          "Jugum",
+          "Lumen",
+          "Mare",
+          "Nox",
+          "Opus",
+          "Pax",
+          "Quam",
+          "Rex",
+          "Sol",
+          "Tempus",
+          "Umbra",
+          "Vita",
+          "Vox",
+          "Terra",
+          "Sanctum",
+          "Virtus",
+          "Manus",
+          "Caelum",
+          "Anima",
+          "Stella",
+          "Ventus",
+          "Magnus",
+          "Patria",
+          "Fortis",
+          "Sapiens",
+          "Veritas",
+          "Natura",
+          "Vis",
+          "Lex",
+          "Fides",
+          "Amor",
+          "Mors",
+          "Pater",
+          "Mater",
+          "Filius",
+          "Roma",
+          "Diem",
+          "Numen",
+          "Corpus",
+          "Annus",
+          "Ignis",
+          "Aqua",
+          "Arbor",
+          "Mons",
         ];
 
         // Add helper function to generate random headings
         const generateRandomHeading = () => {
-          const getRandomWord = () => 
+          const getRandomWord = () =>
             latinWords[Math.floor(Math.random() * latinWords.length)];
-          
+
           const length = Math.floor(Math.random() * 7) + 4; // 4-10 words
           const words = [];
-          
+
           while (words.length < length) {
             const word = getRandomWord();
-            if (!words.includes(word)) { // Avoid duplicate words
+            if (!words.includes(word)) {
+              // Avoid duplicate words
               words.push(word);
             }
           }
-          
+
           return words.join(" ");
         };
 
@@ -267,9 +335,10 @@ HAVING total > 100;`,
           const heading = generateRandomHeading();
 
           if (options.underlinedHeaders) {
-            const underline = level === 1
-              ? "=".repeat(heading.length)
-              : "-".repeat(heading.length);
+            const underline =
+              level === 1
+                ? "=".repeat(heading.length)
+                : "-".repeat(heading.length);
             return `${heading}\n${underline}\n\n`;
           }
 
@@ -357,10 +426,16 @@ HAVING total > 100;`,
 
         /**
          * Triggers markdown generation and updates state
+         * Shows loading spinner during generation
          */
         const generateMarkdown = () => {
-          const markdown = generateContent();
-          setGeneratedText(markdown);
+          setIsLoading(true);
+          // Add slight delay to show loading state
+          setTimeout(() => {
+            const markdown = generateContent();
+            setGeneratedText(markdown);
+            setIsLoading(false);
+          }, 800); // Add 800ms delay for visual feedback
         };
 
         /**
@@ -453,8 +528,9 @@ HAVING total > 100;`,
          */
         return (
           <div className="max-w-4xl mx-auto p-6">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-serif mb-4 text-gray-800">
+            {/* Header section with gradient */}
+            <div className="mb-12 p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-sm text-center">
+              <h1 className="text-4xl font-serif mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto">
                 Ipsumify: A Markdown Generator
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -463,17 +539,21 @@ HAVING total > 100;`,
               </p>
             </div>
 
-            <div className="border-t border-b py-6 mb-8 bg-gray-50 rounded-lg shadow-sm">
+            {/* Instructions panel */}
+            <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
               <p className="text-center text-gray-700">
                 Configure your options below and generate customized markdown
                 content.
               </p>
             </div>
 
+            {/* Options grid with improved styling */}
             <div className="grid grid-cols-2 gap-8 mb-8">
-              <div>
-                <h2 className="font-medium mb-3">Basic Options</h2>
-                <div className="space-y-2">
+              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <h2 className="font-medium mb-4 text-xl text-gray-800">
+                  Basic Options
+                </h2>
+                <div className="space-y-3">
                   {[
                     ["noHeaders", "No headers"],
                     ["noCodeSnippets", "No code snippets"],
@@ -497,9 +577,11 @@ HAVING total > 100;`,
                 </div>
               </div>
 
-              <div>
-                <h2 className="font-medium mb-3">Style Options</h2>
-                <div className="space-y-2">
+              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <h2 className="font-medium mb-4 text-xl text-gray-800">
+                  Style Options
+                </h2>
+                <div className="space-y-3">
                   {[
                     ["underlinedHeaders", "Underlined headers"],
                     ["referenceLinks", "Reference-style links"],
@@ -539,54 +621,59 @@ HAVING total > 100;`,
               </div>
             </div>
 
+            {/* Action buttons section */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <button
                 onClick={generateMarkdown}
-                className="border rounded-lg p-3 bg-blue-600 text-white hover:bg-blue-700 font-medium transition-colors duration-200"
+                disabled={isLoading}
+                className={`border rounded-xl p-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 font-medium transition-all duration-200 shadow-sm ${
+                  isLoading ? "opacity-75 cursor-not-allowed" : ""
+                }`}
               >
-                Generate some markdown!
+                {isLoading ? "Generating..." : "Generate some markdown!"}
               </button>
               <button
                 onClick={resetOptions}
-                className="border rounded-lg p-3 bg-gray-600 text-white hover:bg-gray-700 font-medium transition-colors duration-200"
+                className="border rounded-xl p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800 font-medium transition-all duration-200 shadow-sm"
               >
                 Reset
               </button>
             </div>
 
-            {generatedText && (
+            {/* Show spinner when loading */}
+            {isLoading && <Spinner />}
+
+            {/* Show generated content when not loading */}
+            {!isLoading && generatedText && (
               <div className="mt-6">
                 <div className="flex justify-between mb-2">
                   <div className="flex-shrink-0">
                     <button
                       onClick={copyToClipboard}
-                      className={`flex items-center justify-center px-4 py-2 rounded transition-colors ${
+                      className={`flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 shadow-sm ${
                         copySuccess
-                          ? "bg-blue-500 hover:bg-blue-600"
-                          : "bg-green-500 hover:bg-green-600"
-                      } text-white`}
+                          ? "bg-gradient-to-r from-blue-500 to-blue-600"
+                          : "bg-gradient-to-r from-green-500 to-green-600"
+                      } text-white hover:shadow-md`}
                     >
                       <CopyIcon />
                       {copySuccess ? "Copied!" : "Copy to Clipboard"}
                     </button>
                   </div>
                   <div className="flex space-x-2">
-                    <button
-                      onClick={() => downloadFile(".md")}
-                      className="flex items-center justify-center px-4 py-2 rounded transition-colors bg-purple-500 hover:bg-purple-600 text-white"
-                    >
-                      Download .md
-                    </button>
-                    <button
-                      onClick={() => downloadFile(".txt")}
-                      className="flex items-center justify-center px-4 py-2 rounded transition-colors bg-purple-500 hover:bg-purple-600 text-white"
-                    >
-                      Download .txt
-                    </button>
+                    {["md", "txt"].map((ext) => (
+                      <button
+                        key={ext}
+                        onClick={() => downloadFile(`.${ext}`)}
+                        className="flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 shadow-sm hover:shadow-md"
+                      >
+                        Download .{ext}
+                      </button>
+                    ))}
                   </div>
                 </div>
                 <div
-                  className={`p-4 bg-gray-50 rounded font-mono border text-sm ${
+                  className={`p-6 bg-white rounded-xl shadow-sm border border-gray-100 font-mono text-sm ${
                     options.noWrapping
                       ? "overflow-x-auto whitespace-nowrap"
                       : "whitespace-pre-wrap"
@@ -599,12 +686,13 @@ HAVING total > 100;`,
               </div>
             )}
 
+            {/* Footer with subtle styling */}
             <footer className="mt-16 pt-8 border-t text-center text-gray-600">
               <a
                 href="https://github.com/ICJIA/ipsumify-2025"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center hover:text-gray-900 transition-colors duration-200"
+                className="inline-flex items-center hover:text-gray-900 transition-colors duration-200 p-2 rounded-lg hover:bg-white"
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -623,12 +711,9 @@ HAVING total > 100;`,
             </footer>
           </div>
         );
-      }
+      } // End of LoremMarkdownGenerator component
 
-      /**
-       * Initialize React application
-       * Creates root element and renders main component
-       */
+      // Initialize React application
       const root = ReactDOM.createRoot(document.getElementById("root"));
       root.render(<LoremMarkdownGenerator />);
     </script>
