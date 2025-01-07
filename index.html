@@ -527,29 +527,27 @@ HAVING total > 100;`,
          * @returns {JSX.Element} Complete UI structure
          */
         return (
-          <div className="max-w-4xl mx-auto p-6">
+          <div className="max-w-4xl mx-auto p-3 sm:p-6">
             {/* Header section with gradient */}
-            <div className="mb-12 p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-sm text-center">
-              <h1 className="text-4xl font-serif mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto">
+            <div className="mb-8 sm:mb-12 p-4 sm:p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-sm text-center">
+              <h1 className="text-3xl sm:text-4xl font-serif mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto">
                 Ipsumify: A Markdown Generator
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Generate structured placeholder text in markdown format for your
-                projects.
+              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                Generate structured placeholder text in markdown format for your projects.
               </p>
             </div>
 
             {/* Instructions panel */}
-            <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-white rounded-xl shadow-sm border border-gray-100">
               <p className="text-center text-gray-700">
-                Configure your options below and generate customized markdown
-                content.
+                Configure your options below and generate customized markdown content.
               </p>
             </div>
 
-            {/* Options grid with improved styling */}
-            <div className="grid grid-cols-2 gap-8 mb-8">
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+            {/* Options grid with improved responsive styling */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 mb-6 sm:mb-8">
+              <div className="p-4 sm:p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                 <h2 className="font-medium mb-4 text-xl text-gray-800">
                   Basic Options
                 </h2>
@@ -577,7 +575,7 @@ HAVING total > 100;`,
                 </div>
               </div>
 
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+              <div className="p-4 sm:p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                 <h2 className="font-medium mb-4 text-xl text-gray-800">
                   Style Options
                 </h2>
@@ -621,8 +619,8 @@ HAVING total > 100;`,
               </div>
             </div>
 
-            {/* Action buttons section */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            {/* Action buttons with responsive layout */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
               <button
                 onClick={generateMarkdown}
                 disabled={isLoading}
@@ -640,17 +638,14 @@ HAVING total > 100;`,
               </button>
             </div>
 
-            {/* Show spinner when loading */}
-            {isLoading && <Spinner />}
-
-            {/* Show generated content when not loading */}
+            {/* Generated content section with responsive buttons */}
             {!isLoading && generatedText && (
               <div className="mt-6">
-                <div className="flex justify-between mb-2">
+                <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-2 mb-4">
                   <div className="flex-shrink-0">
                     <button
                       onClick={copyToClipboard}
-                      className={`flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 shadow-sm ${
+                      className={`w-full sm:w-auto flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 shadow-sm ${
                         copySuccess
                           ? "bg-gradient-to-r from-blue-500 to-blue-600"
                           : "bg-gradient-to-r from-green-500 to-green-600"
@@ -660,12 +655,12 @@ HAVING total > 100;`,
                       {copySuccess ? "Copied!" : "Copy to Clipboard"}
                     </button>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex gap-2 sm:space-x-2">
                     {["md", "txt"].map((ext) => (
                       <button
                         key={ext}
                         onClick={() => downloadFile(`.${ext}`)}
-                        className="flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 shadow-sm hover:shadow-md"
+                        className="flex-1 sm:flex-none flex items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 shadow-sm hover:shadow-md"
                       >
                         Download .{ext}
                       </button>
@@ -673,7 +668,7 @@ HAVING total > 100;`,
                   </div>
                 </div>
                 <div
-                  className={`p-6 bg-white rounded-xl shadow-sm border border-gray-100 font-mono text-sm ${
+                  className={`p-4 sm:p-6 bg-white rounded-xl shadow-sm border border-gray-100 font-mono text-sm ${
                     options.noWrapping
                       ? "overflow-x-auto whitespace-nowrap"
                       : "whitespace-pre-wrap"
@@ -686,8 +681,8 @@ HAVING total > 100;`,
               </div>
             )}
 
-            {/* Footer with subtle styling */}
-            <footer className="mt-16 pt-8 border-t text-center text-gray-600">
+            {/* Footer with responsive margins */}
+            <footer className="mt-8 sm:mt-16 pt-6 sm:pt-8 border-t text-center text-gray-600">
               <a
                 href="https://github.com/ICJIA/ipsumify-2025"
                 target="_blank"
