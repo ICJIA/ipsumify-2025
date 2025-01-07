@@ -1,6 +1,6 @@
-# Ipsumify
+# Ipsumify: A Lorem Ipsum Generator
 
-A modern, browser-based Lorem Ipsum markdown generator. This tool helps developers and writers create structured markdown content for testing and layout purposes.
+A modern, browser-based Lorem Ipsum generator. This tool helps developers and writers create placeholder content for testing and layout purposes.
 
 ## Features
 
