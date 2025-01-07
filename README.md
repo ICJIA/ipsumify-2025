@@ -16,9 +16,14 @@ A modern, browser-based markdown placeholder text generator. This tool helps dev
 - Download as .md or .txt files
 - No wrapping option for specific use cases
 
+## Site
+
+https://ipsumify.netlify.app/
+
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/ipsumify-2024.git
 cd ipsumify-2024
@@ -28,9 +33,9 @@ cd ipsumify-2024
 
 ## Usage
 
-1. Open the application in your web browser
-2. Configure your desired options using the checkboxes
-3. Set the number of content blocks you want to generate
+1. Open `index.html` in your web browser or serve it as usual.
+2. Configure your desired options using the checkboxes.
+3. Set the number of markdown paragraphs you want to generate. Default is `10`.
 4. Click "Generate some markdown!" to create your placeholder text
 5. Use the copy or download buttons to export your content
 
