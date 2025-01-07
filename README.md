@@ -18,7 +18,7 @@ A modern, browser-based Lorem Ipsum markdown generator. This tool helps develope
 
 ## Site
 
-https://ipsumify.netlify.app/
+https://ipsumify.com/
 
 ## Installation
 
