@@ -22,8 +22,13 @@
     <div id="root"></div>
 
     <script type="text/babel">
-      // Sample code blocks for different programming languages
-      // These will be randomly inserted into the generated markdown
+      /**
+       * Sample code blocks for different programming languages
+       * These blocks are used as examples in the generated markdown
+       * Each object contains:
+       * - lang: The programming language identifier for syntax highlighting
+       * - code: The actual code snippet to be inserted
+       */
       const codeExamples = [
         {
           lang: "javascript",
@@ -57,7 +62,12 @@ HAVING total > 100;`,
         },
       ];
 
-      // Custom SVG icon component for copy functionality
+      /**
+       * Custom SVG icon component for copy functionality
+       * Renders a document copy icon using SVG paths
+       * Used in the clipboard copy button
+       * @returns {JSX.Element} SVG icon element
+       */
       const CopyIcon = () => (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -76,9 +86,48 @@ HAVING total > 100;`,
         </svg>
       );
 
-      // Main application component
+      /**
+       * Main application component for the Lorem Markdown Generator
+       * Handles all state management and content generation
+       * @component
+       */
       function LoremMarkdownGenerator() {
-        // State management for generator options and generated text
+        // Add Latin words array at the top of the component
+        const latinWords = [
+          "Aether", "Bellum", "Carmen", "Deus", "Enim", "Fatum", "Gloria", 
+          "Homo", "Idem", "Jugum", "Lumen", "Mare", "Nox", "Opus", "Pax",
+          "Quam", "Rex", "Sol", "Tempus", "Umbra", "Vita", "Vox", "Terra",
+          "Sanctum", "Virtus", "Manus", "Caelum", "Anima", "Stella", "Ventus",
+          "Magnus", "Patria", "Fortis", "Sapiens", "Veritas", "Natura", "Vis",
+          "Lex", "Fides", "Amor", "Mors", "Pater", "Mater", "Filius", "Roma",
+          "Diem", "Numen", "Corpus", "Annus", "Ignis", "Aqua", "Arbor", "Mons"
+        ];
+
+        // Add helper function to generate random headings
+        const generateRandomHeading = () => {
+          const getRandomWord = () => 
+            latinWords[Math.floor(Math.random() * latinWords.length)];
+          
+          const length = Math.floor(Math.random() * 7) + 4; // 4-10 words
+          const words = [];
+          
+          while (words.length < length) {
+            const word = getRandomWord();
+            if (!words.includes(word)) { // Avoid duplicate words
+              words.push(word);
+            }
+          }
+          
+          return words.join(" ");
+        };
+
+        /**
+         * State management for generator options
+         * Controls various aspects of markdown generation including:
+         * - Content types (headers, code, lists, etc.)
+         * - Styling options (underlining, emphasis, etc.)
+         * - Output format preferences
+         */
         const [options, setOptions] = React.useState({
           noHeaders: false,
           noCodeSnippets: false,
@@ -95,9 +144,17 @@ HAVING total > 100;`,
           numBlocks: 10,
         });
 
+        /**
+         * State for generated text and copy operation feedback
+         */
         const [generatedText, setGeneratedText] = React.useState("");
         const [copySuccess, setCopySuccess] = React.useState(false);
 
+        /**
+         * Handles changes to option checkboxes
+         * Toggles boolean states for various markdown generation options
+         * @param {string} option - The option identifier to toggle
+         */
         const handleOptionChange = (option) => {
           setOptions((prev) => ({
             ...prev,
@@ -105,9 +162,11 @@ HAVING total > 100;`,
           }));
         };
 
-        // Helper functions for text generation
-
-        // Creates a random paragraph with optional styling
+        /**
+         * Generates a random paragraph of Latin-inspired text
+         * Includes optional styling based on current options
+         * @returns {string} Generated paragraph with optional markdown formatting
+         */
         const generateParagraph = () => {
           const words = [
             "Lorem",
@@ -198,50 +257,30 @@ HAVING total > 100;`,
           return paragraph;
         };
 
-        // Generates markdown headings with optional underlining
+        /**
+         * Generates markdown headings with optional underlining
+         * Supports different heading levels and styles
+         * @param {number} level - The heading level (1-3)
+         * @returns {string} Formatted markdown heading
+         */
         const generateHeading = (level) => {
-          const headings = [
-            "Canis trahenti habemus",
-            "Cassis nutantia in gutture crine",
-            "Vis agam est",
-            "Marem dei nomen",
-            // Additional headings
-            "Tempus Fugit Inexorabile",
-            "Astra Inclinant Non Necessitant",
-            "Veritas Vincit Omnia",
-            "Sapiens Dominabitur Astris",
-            "Fortuna Audaces Iuvat",
-            "Memento Vivere Et Amare",
-            "Natura Non Constristatur",
-            "Semper Ad Meliora",
-            "Carpe Noctem Quam Diem",
-            "Faber Est Suae Quisque",
-            "Cogito Ergo Sum Eternum",
-            "Ars Longa Vita Brevis",
-            "Vincit Qui Se Vincit",
-            "Audentes Fortuna Juvat",
-            "Lux Et Veritas Vitae",
-            "Ad Astra Per Aspera",
-            "Omnia Mutantur Nos",
-            "Sic Itur Ad Astra",
-            "Mens Sana In Corpore",
-            "Per Ardua Ad Alta",
-          ];
-          const heading = headings[Math.floor(Math.random() * headings.length)];
+          const heading = generateRandomHeading();
 
           if (options.underlinedHeaders) {
-            // Create underlined headers using = for h1 and - for h2/h3
-            const underline =
-              level === 1
-                ? "=".repeat(heading.length)
-                : "-".repeat(heading.length);
+            const underline = level === 1
+              ? "=".repeat(heading.length)
+              : "-".repeat(heading.length);
             return `${heading}\n${underline}\n\n`;
           }
 
           return `${"#".repeat(level)} ${heading}\n\n`;
         };
 
-        // Creates code blocks with syntax highlighting
+        /**
+         * Creates code blocks with optional syntax highlighting
+         * Supports both inline and block-style code formatting
+         * @returns {string} Formatted code block in markdown
+         */
         const generateCodeBlock = () => {
           const example =
             codeExamples[Math.floor(Math.random() * codeExamples.length)];
@@ -253,14 +292,20 @@ HAVING total > 100;`,
           return `\`${firstLine}\`\n\n`;
         };
 
-        // Main content generation function
+        /**
+         * Main content generation function
+         * Orchestrates the creation of complete markdown documents
+         * Combines various elements (headings, paragraphs, lists, etc.)
+         * @returns {string} Complete markdown document
+         */
         const generateContent = () => {
           let content = "";
 
           if (!options.noHeaders) {
+            const mainHeading = generateRandomHeading();
             content += options.underlinedHeaders
-              ? "Caligine fassaque portitor fine summo bis est\n=======================================\n\n"
-              : "# Caligine fassaque portitor fine summo bis est\n\n";
+              ? `${mainHeading}\n${"=".repeat(mainHeading.length)}\n\n`
+              : `# ${mainHeading}\n\n`;
           }
 
           const numSubheadings = Math.max(3, Math.floor(options.numBlocks / 4));
@@ -306,15 +351,23 @@ HAVING total > 100;`,
           return content;
         };
 
-        // Event handlers and utility functions
+        /**
+         * Event Handlers and Utility Functions
+         */
 
-        // Triggers markdown generation
+        /**
+         * Triggers markdown generation and updates state
+         */
         const generateMarkdown = () => {
           const markdown = generateContent();
           setGeneratedText(markdown);
         };
 
-        // Handles clipboard operations
+        /**
+         * Handles copying generated text to clipboard
+         * Includes fallback for browsers without clipboard API
+         * Shows success feedback to user
+         */
         const copyToClipboard = async () => {
           if (!generatedText) return;
 
@@ -336,7 +389,10 @@ HAVING total > 100;`,
           setTimeout(() => setCopySuccess(false), 2000);
         };
 
-        // Formats current date for file naming
+        /**
+         * Formats current date for file naming
+         * @returns {string} Formatted date string (YYYY-MM-DD)
+         */
         const getFormattedDate = () => {
           const date = new Date();
           return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
@@ -345,7 +401,11 @@ HAVING total > 100;`,
           )}-${String(date.getDate()).padStart(2, "0")}`;
         };
 
-        // Handles file download operations
+        /**
+         * Handles file download operations
+         * Supports both .md and .txt formats
+         * @param {string} extension - The file extension to use
+         */
         const downloadFile = (extension) => {
           const blob = new Blob([generatedText], { type: "text/plain" });
           const url = window.URL.createObjectURL(blob);
@@ -358,7 +418,10 @@ HAVING total > 100;`,
           document.body.removeChild(a);
         };
 
-        // Resets all options to default values
+        /**
+         * Resets all options to their default values
+         * Clears generated text
+         */
         const resetOptions = () => {
           setOptions({
             noHeaders: false,
@@ -378,20 +441,36 @@ HAVING total > 100;`,
           setGeneratedText("");
         };
 
-        // Component render method with UI structure
+        /**
+         * Component render method
+         * Structures the UI into sections:
+         * - Header with title and description
+         * - Options panel with checkboxes
+         * - Action buttons
+         * - Output display with copy/download options
+         * - Footer with GitHub link
+         * @returns {JSX.Element} Complete UI structure
+         */
         return (
           <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-2xl font-serif mb-6">
-              Ipsumify: A Markdown Generator
-            </h1>
-
-            <div className="border-t border-b py-4 mb-6">
-              <p className="mb-4">
-                Generates structured placeholder text in markdown format.
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-serif mb-4 text-gray-800">
+                Ipsumify: A Markdown Generator
+              </h1>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Generate structured placeholder text in markdown format for your
+                projects.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 mb-6">
+            <div className="border-t border-b py-6 mb-8 bg-gray-50 rounded-lg shadow-sm">
+              <p className="text-center text-gray-700">
+                Configure your options below and generate customized markdown
+                content.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8 mb-8">
               <div>
                 <h2 className="font-medium mb-3">Basic Options</h2>
                 <div className="space-y-2">
@@ -460,16 +539,16 @@ HAVING total > 100;`,
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mb-8">
               <button
                 onClick={generateMarkdown}
-                className="border rounded p-3 bg-blue-500 text-white hover:bg-gray-100 hover:text-black font-medium"
+                className="border rounded-lg p-3 bg-blue-600 text-white hover:bg-blue-700 font-medium transition-colors duration-200"
               >
                 Generate some markdown!
               </button>
               <button
                 onClick={resetOptions}
-                className="border rounded p-3 hover:bg-gray-100 bg-gray-500 text-white hover:bg-gray-600 font-medium"
+                className="border rounded-lg p-3 bg-gray-600 text-white hover:bg-gray-700 font-medium transition-colors duration-200"
               >
                 Reset
               </button>
@@ -519,11 +598,37 @@ HAVING total > 100;`,
                 </div>
               </div>
             )}
+
+            <footer className="mt-16 pt-8 border-t text-center text-gray-600">
+              <a
+                href="https://github.com/ICJIA/ipsumify-2025"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center hover:text-gray-900 transition-colors duration-200"
+              >
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                View on GitHub
+              </a>
+            </footer>
           </div>
         );
       }
 
-      // Initialize React application
+      /**
+       * Initialize React application
+       * Creates root element and renders main component
+       */
       const root = ReactDOM.createRoot(document.getElementById("root"));
       root.render(<LoremMarkdownGenerator />);
     </script>
