@@ -26,35 +26,35 @@
       // These will be randomly inserted into the generated markdown
       const codeExamples = [
         {
-          lang: 'javascript',
+          lang: "javascript",
           code: `function processData(input) {
   return input.map(x => x * 2)
     .filter(x => x > 10);
-}`
+}`,
         },
         {
-          lang: 'bash',
+          lang: "bash",
           code: `#!/bin/bash
 for i in {1..5}
 do
   echo "Processing $i..."
   sleep 1
-done`
+done`,
         },
         {
-          lang: 'python',
+          lang: "python",
           code: `def fibonacci(n):
     if n <= 1:
         return n
-    return fibonacci(n-1) + fibonacci(n-2)`
+    return fibonacci(n-1) + fibonacci(n-2)`,
         },
         {
-          lang: 'sql',
+          lang: "sql",
           code: `SELECT category, COUNT(*) as total
 FROM products
 GROUP BY category
-HAVING total > 100;`
-        }
+HAVING total > 100;`,
+        },
       ];
 
       // Custom SVG icon component for copy functionality
@@ -106,20 +106,57 @@ HAVING total > 100;`
         };
 
         // Helper functions for text generation
-        
+
         // Creates a random paragraph with optional styling
         const generateParagraph = () => {
           const words = [
-            "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
-            "adipiscing", "elit", "caligine", "fassaque", "portitor",
-            "fine", "summo", "bis", "est", "orbus",
+            "Lorem",
+            "ipsum",
+            "dolor",
+            "sit",
+            "amet",
+            "consectetur",
+            "adipiscing",
+            "elit",
+            "caligine",
+            "fassaque",
+            "portitor",
+            "fine",
+            "summo",
+            "bis",
+            "est",
+            "orbus",
             // Additional Latin-inspired words
-            "aether", "bellum", "carmen", "deus", "enim",
-            "fatum", "gloria", "homo", "idem", "jugum",
-            "lumen", "mare", "nox", "opus", "pax",
-            "quam", "rex", "sol", "tempus", "umbra",
-            "vita", "vox", "terra", "sanctum", "virtus",
-            "manus", "caelum", "anima", "stella", "ventus"
+            "aether",
+            "bellum",
+            "carmen",
+            "deus",
+            "enim",
+            "fatum",
+            "gloria",
+            "homo",
+            "idem",
+            "jugum",
+            "lumen",
+            "mare",
+            "nox",
+            "opus",
+            "pax",
+            "quam",
+            "rex",
+            "sol",
+            "tempus",
+            "umbra",
+            "vita",
+            "vox",
+            "terra",
+            "sanctum",
+            "virtus",
+            "manus",
+            "caelum",
+            "anima",
+            "stella",
+            "ventus",
           ];
 
           const getRandomWord = () =>
@@ -188,7 +225,7 @@ HAVING total > 100;`
             "Omnia Mutantur Nos",
             "Sic Itur Ad Astra",
             "Mens Sana In Corpore",
-            "Per Ardua Ad Alta"
+            "Per Ardua Ad Alta",
           ];
           const heading = headings[Math.floor(Math.random() * headings.length)];
 
@@ -206,12 +243,13 @@ HAVING total > 100;`
 
         // Creates code blocks with syntax highlighting
         const generateCodeBlock = () => {
-          const example = codeExamples[Math.floor(Math.random() * codeExamples.length)];
+          const example =
+            codeExamples[Math.floor(Math.random() * codeExamples.length)];
           if (options.codeBlocks) {
             return `\`\`\`${example.lang}\n${example.code}\n\`\`\`\n\n`;
           }
           // For inline code, just take the first line
-          const firstLine = example.code.split('\n')[0];
+          const firstLine = example.code.split("\n")[0];
           return `\`${firstLine}\`\n\n`;
         };
 
@@ -349,8 +387,7 @@ HAVING total > 100;`
 
             <div className="border-t border-b py-4 mb-6">
               <p className="mb-4">
-                A simple webapp that generates structured placeholder text in
-                markdown format.
+                Generates structured placeholder text in markdown format.
               </p>
             </div>
 
