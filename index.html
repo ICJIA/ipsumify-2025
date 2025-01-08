@@ -40,11 +40,8 @@
 
     <script type="text/babel">
       /**
-       * Sample code blocks for different programming languages
-       * These blocks are used as examples in the generated markdown
-       * Each object contains:
-       * - lang: The programming language identifier for syntax highlighting
-       * - code: The actual code snippet to be inserted
+       * Pre-defined code examples used for markdown generation
+       * @type {Array<{lang: string, code: string}>}
        */
       const codeExamples = [
         {
@@ -80,10 +77,8 @@ HAVING total > 100;`,
       ];
 
       /**
-       * Custom SVG icon component for copy functionality
-       * Renders a document copy icon using SVG paths
-       * Used in the clipboard copy button
-       * @returns {JSX.Element} SVG icon element
+       * Renders a copy icon SVG for the clipboard button
+       * @returns {JSX.Element} Copy icon component
        */
       const CopyIcon = () => (
         <svg
@@ -104,8 +99,8 @@ HAVING total > 100;`,
       );
 
       /**
-       * Spinner component for loading state
-       * @returns {JSX.Element} Animated spinner
+       * Renders a loading spinner animation
+       * @returns {JSX.Element} Spinner component with animation
        */
       const Spinner = () => (
         <div className="flex justify-center p-12">
@@ -113,9 +108,15 @@ HAVING total > 100;`,
         </div>
       );
 
-      // Add ThemeToggle component before LoremMarkdownGenerator
+      /**
+       * Theme toggle button component with descriptive text
+       * @param {Object} props - Component props
+       * @param {boolean} props.isDark - Current theme state
+       * @param {() => void} props.onToggle - Theme toggle handler
+       * @returns {JSX.Element} Theme toggle button with label
+       */
       const ThemeToggle = ({ isDark, onToggle }) => (
-        <div className="fixed top-4 right-4 flex flex-col items-center">
+        <div className="flex flex-col items-center mb-4">
           <button
             onClick={onToggle}
             className="p-2 rounded-full bg-opacity-20 hover:bg-opacity-30 transition-colors duration-200"
@@ -154,27 +155,35 @@ HAVING total > 100;`,
       );
 
       /**
-       * Main application component for the Lorem Markdown Generator
-       * Handles all state management and content generation
-       * @component
+       * Main application component for markdown generation
+       * Handles state management, content generation, and UI rendering
+       * Features:
+       * - Dark/light theme with persistence
+       * - Markdown generation with various options
+       * - File download and clipboard operations
+       * - Responsive layout
+       * @returns {JSX.Element} Main application UI
        */
       function LoremMarkdownGenerator() {
-        // Add dark mode state
+        // Add dark mode state with persistence
         const [isDark, setIsDark] = React.useState(() => {
-          const saved = localStorage.getItem("theme");
-          return saved ? saved === "dark" : true; // Default to dark
+          const saved = localStorage.getItem('theme');
+          return saved ? saved === 'dark' : true; // Default to dark
         });
 
-        // Update theme in localStorage and document
+        // Add theme effect
         React.useEffect(() => {
-          localStorage.setItem("theme", isDark ? "dark" : "light");
-          document.documentElement.classList.toggle("dark", isDark);
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          document.documentElement.classList.toggle('dark', isDark);
         }, [isDark]);
 
-        // Add loading state
+        // ...rest of existing state declarations...
         const [isLoading, setIsLoading] = React.useState(false);
-
-        // Add Latin words array at the top of the component
+        /**
+         * Latin words used for content generation
+         * Provides a consistent vocabulary for generated text
+         * @type {Array<string>}
+         */
         const latinWords = [
           "Aether",
           "Bellum",
@@ -231,7 +240,11 @@ HAVING total > 100;`,
           "Mons",
         ];
 
-        // Add helper function to generate random headings
+        /**
+         * Generates a random heading using Latin words
+         * Ensures unique words within each heading
+         * @returns {string} Space-separated Latin words
+         */
         const generateRandomHeading = () => {
           const getRandomWord = () =>
             latinWords[Math.floor(Math.random() * latinWords.length)];
@@ -577,6 +590,10 @@ HAVING total > 100;`,
           setGeneratedText("");
         };
 
+        /**
+         * Handles theme toggle action
+         * Updates localStorage and DOM classes
+         */
         const toggleTheme = () => setIsDark(!isDark);
 
         /**
@@ -595,7 +612,10 @@ HAVING total > 100;`,
               isDark ? "text-gray-100" : "text-gray-800"
             }`}
           >
-            <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+            {/* Move theme toggle to top of page */}
+            <div className="flex justify-end pt-2">
+              <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+            </div>
 
             {/* Header section with gradient */}
             <div
@@ -844,7 +864,7 @@ HAVING total > 100;`,
             </footer>
           </div>
         );
-      } // End of LoremMarkdownGenerator component
+      }
 
       // Initialize React application
       const root = ReactDOM.createRoot(document.getElementById("root"));
