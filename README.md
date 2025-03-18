@@ -25,8 +25,8 @@ https://ipsumify.com/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ipsumify-2024.git
-cd ipsumify-2024
+git clone https://github.com/ICJIA/ipsumify-2025
+cd ipsumify-2025
 ```
 
 2. No build process required! Simply open `index.html` in a modern web browser.
