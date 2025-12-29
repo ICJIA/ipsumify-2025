@@ -571,25 +571,59 @@ yarn vue-tsc --noEmit
 
 ### 8.1 Netlify Deployment
 
-Configure Netlify to use the `.output/public` directory:
+📖 **For a complete Netlify deployment guide with troubleshooting, see [NETLIFY_DEPLOYMENT.md](./NETLIFY_DEPLOYMENT.md)**
+
+**⚠️ CRITICAL: Simple and Correct Configuration**
+
+For Nuxt 4.2.x static site generation on Netlify, use this **exact** configuration:
 
 ```toml
 # netlify.toml
 [build]
   command = "yarn generate"
-  publish = ".output/public"
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 ```
 
-**Verify:**
+**Key Points (DO NOT DEVIATE FROM THIS):**
 
-- Build command: `yarn generate` or `npm run generate`
-- Publish directory: `.output/public`
-- Node version: 20+
+1. **Build command:** `yarn generate` - That's it. No copy steps, no symlinks, no extra scripts.
+2. **Publish directory:** `dist` - **NOT** `.output/public`. Netlify handles the mapping automatically.
+3. **Node version:** Match your `.nvmrc` file or use Node 22+ (recommended for Nuxt 4.2.x).
 
-**Note:** If you encounter plugin installation errors (like Neon), check your Netlify dashboard for any plugins/extensions configured there and remove any that aren't needed for your build.
+**Why `dist` and not `.output/public`?**
+
+- Nuxt generates to `.output/public` during the build
+- Netlify's build environment expects `dist` as the publish directory
+- Netlify automatically handles the directory mapping - you don't need to copy, symlink, or do anything else
+- Just point to `dist` and let Netlify do its job
+
+**Common Mistakes to Avoid:**
+
+❌ **Don't** add copy scripts to `package.json`  
+❌ **Don't** try to symlink `dist` to `.output/public`  
+❌ **Don't** use `.output/public` as the publish directory  
+❌ **Don't** add post-build steps or modify the generate script
+
+✅ **Do** use `yarn generate` as the build command (keep it simple)  
+✅ **Do** use `dist` as the publish directory  
+✅ **Do** set the Node version in `netlify.toml` to match your `.nvmrc`
+
+**Verify Your Configuration:**
+
+- Build command: `yarn generate` (or `npm run generate`)
+- Publish directory: `dist`
+- Node version: Match your `.nvmrc` or use 22+ (20+ minimum)
+
+**Troubleshooting:**
+
+If you encounter plugin installation errors (like "neon"):
+
+- Check Netlify dashboard → Site settings → Build & deploy → Build plugins
+- Remove any plugins/extensions you don't need
+- Plugins configured in the dashboard can cause failures even if not in `netlify.toml`
 
 ### 8.2 Vercel Deployment
 
@@ -668,21 +702,53 @@ yarn nuxt prepare
 
 ### Issue 6: Build Fails on Netlify/Vercel
 
-**Symptom:** Deployment fails
+**Symptom:** Deployment fails or "Deploy directory does not exist" error
 
-**Solution:**
+**Solution for Netlify (CRITICAL - Follow Exactly):**
 
-- Verify Node version is 20+
+Use this **exact** configuration in `netlify.toml`:
+
+```toml
+[build]
+  command = "yarn generate"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"  # or match your .nvmrc
+```
+
+**Key Points:**
+
+- ✅ Use `publish = "dist"` (NOT `.output/public`)
+- ✅ Use `command = "yarn generate"` (no copy steps, no modifications)
+- ✅ Let Netlify handle the directory mapping automatically
+- ✅ Match Node version to your `.nvmrc` file
+
+**Common Netlify Issues:**
+
+1. **"Deploy directory does not exist" error:**
+
+   - ❌ Wrong: `publish = ".output/public"`
+   - ✅ Correct: `publish = "dist"`
+   - Netlify expects `dist`, not `.output/public`
+
+2. **Build completes but deploy fails:**
+
+   - Don't add copy scripts or post-build steps
+   - Don't modify the `generate` script in `package.json`
+   - Just use `yarn generate` and point to `dist`
+
+3. **Plugin installation errors (like "neon"):**
+   - Check Netlify dashboard → Site settings → Build & deploy → Build plugins
+   - Remove any plugins you don't need
+   - Plugins in the dashboard can cause failures even if not in `netlify.toml`
+
+**General Solutions:**
+
+- Verify Node version matches your `.nvmrc` (22+ recommended)
 - Check build logs for specific errors
 - Ensure all dependencies are in `package.json`
-- Clear build cache on platform
-
-**Netlify Plugin Errors:**
-If you see errors about plugins/extensions (like "neon") failing to install:
-
-- Check your Netlify dashboard → Site settings → Build & deploy → Build plugins
-- Remove any plugins you don't need (like Neon if you're not using a database)
-- Plugins configured in the dashboard can cause build failures even if not in `netlify.toml`
+- Clear build cache on Netlify platform
 
 ### Issue 7: Old Directory Structure Not Detected
 

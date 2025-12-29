@@ -45,6 +45,8 @@ The guide covers:
 - Nuxt Content 2.x → 3.x migration
 - Configuration updates and common issues
 
+📖 **[Netlify Deployment Guide](./NETLIFY_DEPLOYMENT.md)** - Complete guide for deploying Nuxt 4 static sites to Netlify
+
 ## Prerequisites
 
 - Node.js 20.x or higher
@@ -171,24 +173,35 @@ yarn preview
 
 ## Deployment to Netlify
 
-This project is configured for easy deployment to Netlify:
+This project is configured for easy deployment to Netlify. **See [NETLIFY_DEPLOYMENT.md](./NETLIFY_DEPLOYMENT.md) for complete deployment guide.**
+
+### Quick Setup
 
 1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
 2. In Netlify dashboard, create a new site from Git
-3. Netlify will automatically detect Nuxt and use the build settings from `netlify.toml`:
-   - Build command: `yarn generate`
-   - Publish directory: `dist`
-   - Node version: 20
+3. Netlify will automatically use the configuration from `netlify.toml`
+
+### Critical Configuration
+
+The `netlify.toml` file must use these exact settings:
+
+```toml
+[build]
+  command = "yarn generate"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"  # Match your .nvmrc
+```
+
+**Important:**
+
+- ✅ Use `publish = "dist"` (NOT `.output/public`)
+- ✅ Use `command = "yarn generate` (no modifications)
+- ✅ Match Node version to your `.nvmrc` file
+- ✅ Let Netlify handle the directory mapping - no copy steps needed
 
 The site will be automatically deployed on every push to your main branch.
-
-### Netlify Configuration
-
-The `netlify.toml` file contains the deployment configuration:
-
-- Build command: `yarn generate`
-- Publish directory: `.output/public`
-- Node version: 20
 
 ## Usage
 
