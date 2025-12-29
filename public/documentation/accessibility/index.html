@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Audit Report - 12/29/2025</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #0a3d0a;
+      margin-bottom: 10px;
+      border-bottom: 3px solid #0a3d0a;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      color: #0a3d0a;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    h3 {
+      color: #555;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .meta {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 30px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 4px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .stat-card {
+      padding: 20px;
+      border-radius: 6px;
+      text-align: center;
+      background: #f9f9f9;
+      border: 2px solid #e0e0e0;
+    }
+    
+    .stat-card.success {
+      background: #d4edda;
+      border-color: #c3e6cb;
+      color: #155724;
+    }
+    
+    .stat-card.warning {
+      background: #fff3cd;
+      border-color: #ffeaa7;
+      color: #856404;
+    }
+    
+    .stat-card.error {
+      background: #f8d7da;
+      border-color: #f5c6cb;
+      color: #721c24;
+    }
+    
+    .stat-card .number {
+      font-size: 2em;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .stat-card .label {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+    }
+    
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #555;
+    }
+    
+    tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+    
+    .badge.critical {
+      background: #dc3545;
+      color: white;
+    }
+    
+    .badge.serious {
+      background: #fd7e14;
+      color: white;
+    }
+    
+    .badge.moderate {
+      background: #ffc107;
+      color: #333;
+    }
+    
+    .badge.minor {
+      background: #17a2b8;
+      color: white;
+    }
+    
+    .badge.viewport {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .violation-details {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border-left: 4px solid #dc3545;
+    }
+    
+    .help-link {
+      color: #007bff;
+      text-decoration: none;
+    }
+    
+    .help-link:hover {
+      text-decoration: underline;
+    }
+    
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Accessibility Audit Report</h1>
+    
+    <div class="meta">
+      <p><strong>Generated:</strong> 12/29/2025, 7:24:04 AM</p>
+      <p><strong>axe-core version:</strong> 4.11.0</p>
+      <p><strong>Pages tested:</strong> 1</p>
+      <p><strong>Viewports tested:</strong> desktop, tablet, mobile</p>
+      <p><strong>Themes tested:</strong> dark, light</p>
+      <p><strong>Total tests run:</strong> 534</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card success">
+        <span class="number">0</span>
+        <span class="label">Violations</span>
+      </div>
+      <div class="stat-card success">
+        <span class="number">66</span>
+        <span class="label">Passes</span>
+      </div>
+      <div class="stat-card" style="background: #e3f2fd; border-color: #90caf9; color: #1565c0;">
+        <span class="number">534</span>
+        <span class="label">Total Tests Run</span>
+      </div>
+      <div class="stat-card success">
+        <span class="number">1</span>
+        <span class="label">Pages Passing</span>
+      </div>
+      <div class="stat-card success">
+        <span class="number">0</span>
+        <span class="label">Pages with Violations</span>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    <h2>📋 All Tested Pages</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Viewport</th>
+          <th>Theme</th>
+          <th>Violations</th>
+          <th>Passes</th>
+          <th>Incomplete</th>
+          <th>Total Tests</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">desktop</span></td>
+          <td><span class="badge viewport">dark</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">desktop</span></td>
+          <td><span class="badge viewport">light</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">tablet</span></td>
+          <td><span class="badge viewport">dark</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">tablet</span></td>
+          <td><span class="badge viewport">light</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">mobile</span></td>
+          <td><span class="badge viewport">dark</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+        <tr>
+          <td>/</td>
+          <td><span class="badge viewport">mobile</span></td>
+          <td><span class="badge viewport">light</span></td>
+          <td>0</td>
+          <td>11</td>
+          <td>0</td>
+          <td><strong>89</strong></td>
+          <td><span style="color: #1a7a30;">✅ Pass</span></td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    <div style="background: #e8f4f8; padding: 20px; border-radius: 6px; margin: 40px 0; border-left: 4px solid #1976D2;">
+      <h2 style="margin-top: 0; color: #1976D2;">About axe-core</h2>
+      <p><strong>axe-core</strong> is an open-source accessibility testing engine developed by Deque Systems. It is one of the most comprehensive and widely-used tools for automated accessibility testing on the web.</p>
+      
+      <h3 style="color: #555; margin-top: 15px;">What does axe-core test for?</h3>
+      <p>axe-core performs automated checks against the <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines (WCAG)</a> and other accessibility standards. The tests check for:</p>
+      <ul style="margin-left: 20px; margin-top: 10px;">
+        <li><strong>Semantic HTML:</strong> Proper use of HTML elements, ARIA attributes, and landmarks</li>
+        <li><strong>Keyboard Navigation:</strong> All interactive elements must be keyboard accessible</li>
+        <li><strong>Color Contrast:</strong> Text must meet WCAG contrast ratio requirements (4.5:1 for normal text, 3:1 for large text)</li>
+        <li><strong>Focus Management:</strong> Visible focus indicators and logical tab order</li>
+        <li><strong>Form Labels:</strong> All form inputs must have associated labels</li>
+        <li><strong>Image Alt Text:</strong> Images must have appropriate alternative text</li>
+        <li><strong>Heading Structure:</strong> Proper heading hierarchy (h1 → h2 → h3, etc.)</li>
+        <li><strong>Landmark Regions:</strong> Proper use of ARIA landmarks (banner, main, navigation, contentinfo, etc.)</li>
+        <li><strong>Interactive Elements:</strong> Buttons, links, and controls must have accessible names</li>
+        <li><strong>Language Attributes:</strong> HTML lang attribute must be set</li>
+      </ul>
+      
+      <h3 style="color: #555; margin-top: 15px;">Why is axe-core critical for accessibility?</h3>
+      <ul style="margin-left: 20px; margin-top: 10px;">
+        <li><strong>Automated Testing:</strong> Catches accessibility issues early in development, before manual testing</li>
+        <li><strong>Comprehensive Coverage:</strong> Tests for 50+ accessibility rules covering WCAG 2.1 Level A and AA standards</li>
+        <li><strong>Industry Standard:</strong> Used by major companies and integrated into popular testing frameworks</li>
+        <li><strong>Continuous Integration:</strong> Can be integrated into CI/CD pipelines to prevent accessibility regressions</li>
+        <li><strong>Legal Compliance:</strong> Helps ensure compliance with accessibility laws (ADA, Section 508, etc.)</li>
+        <li><strong>User Experience:</strong> Improves usability for all users, including those using assistive technologies</li>
+        <li><strong>Cost-Effective:</strong> Identifies issues before they reach production, reducing remediation costs</li>
+      </ul>
+      
+      <h3 style="color: #555; margin-top: 15px;">axe-core in other accessibility tools</h3>
+      <p>axe-core is the underlying engine powering many popular accessibility testing tools, making it a trusted standard across the industry:</p>
+      <ul style="margin-left: 20px; margin-top: 10px;">
+        <li><strong><a href="https://developers.google.com/web/tools/lighthouse" target="_blank" rel="noopener noreferrer">Google Lighthouse</a>:</strong> Lighthouse's accessibility audit uses axe-core to test web pages. When you run Lighthouse in Chrome DevTools or via the command line, the accessibility score is calculated using axe-core's testing rules.</li>
+        <li><strong><a href="https://www.siteimprove.com/" target="_blank" rel="noopener noreferrer">Siteimprove</a>:</strong> Siteimprove's automated accessibility scanner is built on axe-core, providing enterprise-level accessibility monitoring and reporting for organizations worldwide.</li>
+        <li><strong>Browser Extensions:</strong> Popular browser extensions like axe DevTools and WAVE use axe-core to provide real-time accessibility feedback during development.</li>
+        <li><strong>Testing Frameworks:</strong> Many testing frameworks (Jest, Cypress, Playwright, etc.) integrate axe-core for automated accessibility testing in CI/CD pipelines.</li>
+      </ul>
+      
+      <p style="margin-top: 15px;"><strong>Note:</strong> While axe-core is powerful, it cannot catch all accessibility issues. Manual testing with screen readers and keyboard-only navigation is still essential for a complete accessibility audit.</p>
+    </div>
+    
+    <div class="footer">
+      <p>Generated by axe-core 4.11.0 on 12/29/2025, 7:24:04 AM</p>
+      <p>For more information, visit <a href="https://www.deque.com/axe/" target="_blank">https://www.deque.com/axe/</a></p>
+    </div>
+  </div>
+</body>
+</html>
