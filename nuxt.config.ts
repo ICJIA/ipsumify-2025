@@ -1,28 +1,41 @@
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
   
-  build: {
-    transpile: ['vuetify']
-  },
+  modules: ['vuetify-nuxt-module'],
 
-  modules: [
-    (_options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', (config) => {
-        // @ts-expect-error
-        config.plugins.push(vuetify({ autoImport: true }))
-      })
-    },
-  ],
-
-  vite: {
-    vue: {
-      template: {
-        transformAssetUrls
-      }
+  vuetify: {
+    moduleOptions: {},
+    vuetifyOptions: {
+      ssr: true,
+      theme: {
+        defaultTheme: 'dark',
+        themes: {
+          dark: {
+            colors: {
+              primary: '#1976D2',
+              secondary: '#424242',
+              accent: '#82B1FF',
+              error: '#FF5252',
+              info: '#2196F3',
+              success: '#4CAF50',
+              warning: '#FB8C00',
+            },
+          },
+          light: {
+            colors: {
+              primary: '#1976D2',
+              secondary: '#424242',
+              accent: '#82B1FF',
+              error: '#FF5252',
+              info: '#2196F3',
+              success: '#4CAF50',
+              warning: '#FB8C00',
+            },
+          },
+        },
+      },
     }
   },
 

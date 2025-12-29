@@ -31,6 +31,20 @@ https://ipsumify.com/
 - **axe-core** - Accessibility testing engine
 - **Puppeteer** - Headless browser automation for testing
 
+## Migration Guide
+
+This project has been migrated to Nuxt 4.2.x using the new directory structure. If you're migrating a similar project, see the comprehensive migration guide:
+
+📖 **[Nuxt 4.0 → 4.2.x Migration Guide](./NUXT_4_MIGRATION_GUIDE.md)**
+
+The guide covers:
+
+- Nuxt 4.0 → 4.2.x upgrade steps
+- Directory structure migration (new `app/` structure)
+- Vuetify integration updates
+- Nuxt Content 2.x → 3.x migration
+- Configuration updates and common issues
+
 ## Prerequisites
 
 - Node.js 20.x or higher
@@ -188,14 +202,14 @@ The `netlify.toml` file contains the deployment configuration:
 
 ```
 ipsumify-2025/
-├── components/          # Vue components
-│   ├── ThemeToggle.vue
-│   ├── ResetButton.vue
-│   └── Toast.vue
-├── pages/              # Nuxt pages
-│   └── index.vue      # Main page
-├── plugins/           # Nuxt plugins
-│   └── vuetify.ts     # Vuetify configuration
+├── app/                # Nuxt 4.2.x app directory (new structure)
+│   ├── app.vue        # Root component
+│   ├── components/    # Vue components
+│   │   ├── ThemeToggle.vue
+│   │   ├── ResetButton.vue
+│   │   └── Toast.vue
+│   └── pages/         # Nuxt pages
+│       └── index.vue  # Main page
 ├── scripts/           # Build and testing scripts
 │   └── accessibility-audit.mjs  # ES6 accessibility audit script
 ├── public/            # Static assets
@@ -205,10 +219,10 @@ ipsumify-2025/
 │   │       ├── violations.json  # JSON violations data
 │   │       └── errors.json  # JSON errors data
 │   └── sitemap.xml    # Sitemap for audit script
-├── app.vue            # Root component
 ├── nuxt.config.ts     # Nuxt configuration
 ├── netlify.toml       # Netlify deployment config
-└── package.json       # Dependencies and scripts
+├── package.json       # Dependencies and scripts
+└── NUXT_4_MIGRATION_GUIDE.md  # Migration guide for Nuxt 4.0 → 4.2.x
 ```
 
 ## Code Standards
