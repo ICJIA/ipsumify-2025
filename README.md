@@ -39,6 +39,7 @@ This project has been migrated to Nuxt 4.2.x using the new directory structure. 
 
 - **[Nuxt 4.0 → 4.2.x Migration Guide](./NUXT_4_MIGRATION_GUIDE.md)** - Complete step-by-step migration guide
 - **[Netlify Deployment Guide](./NETLIFY_DEPLOYMENT.md)** - Complete guide for deploying Nuxt 4 static sites to Netlify
+- **[Accessibility Audit Report](./public/documentation/accessibility/index.html)** - Comprehensive accessibility testing report (WCAG 2.1 AA, IITA, ADA Title II)
 
 ### Migration Guide Coverage
 
