@@ -571,25 +571,25 @@ yarn vue-tsc --noEmit
 
 ### 8.1 Netlify Deployment
 
-Configure Netlify to use the `dist` directory (Nuxt creates a symlink from `dist` to `.output/public`):
+Configure Netlify to use the `.output/public` directory:
 
 ```toml
 # netlify.toml
 [build]
   command = "yarn generate"
-  publish = "dist"
+  publish = ".output/public"
 
 [build.environment]
   NODE_VERSION = "20"
 ```
 
-**Note:** While Nuxt generates files to `.output/public` locally, Netlify's build environment uses `dist` as the publish directory. The `dist` directory is a symlink to `.output/public` that Netlify can properly resolve.
-
 **Verify:**
 
 - Build command: `yarn generate` or `npm run generate`
-- Publish directory: `dist` (not `.output/public`)
+- Publish directory: `.output/public`
 - Node version: 20+
+
+**Note:** If you encounter plugin installation errors (like Neon), check your Netlify dashboard for any plugins/extensions configured there and remove any that aren't needed for your build.
 
 ### 8.2 Vercel Deployment
 
@@ -676,6 +676,13 @@ yarn nuxt prepare
 - Check build logs for specific errors
 - Ensure all dependencies are in `package.json`
 - Clear build cache on platform
+
+**Netlify Plugin Errors:**
+If you see errors about plugins/extensions (like "neon") failing to install:
+
+- Check your Netlify dashboard → Site settings → Build & deploy → Build plugins
+- Remove any plugins you don't need (like Neon if you're not using a database)
+- Plugins configured in the dashboard can cause build failures even if not in `netlify.toml`
 
 ### Issue 7: Old Directory Structure Not Detected
 

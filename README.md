@@ -177,7 +177,7 @@ This project is configured for easy deployment to Netlify:
 2. In Netlify dashboard, create a new site from Git
 3. Netlify will automatically detect Nuxt and use the build settings from `netlify.toml`:
    - Build command: `yarn generate`
-   - Publish directory: `dist`
+   - Publish directory: `.output/public`
    - Node version: 20
 
 The site will be automatically deployed on every push to your main branch.
@@ -187,10 +187,8 @@ The site will be automatically deployed on every push to your main branch.
 The `netlify.toml` file contains the deployment configuration:
 
 - Build command: `yarn generate`
-- Publish directory: `dist` (symlink to `.output/public`)
+- Publish directory: `.output/public`
 - Node version: 20
-
-**Note:** While Nuxt generates files to `.output/public` locally, Netlify uses `dist` as the publish directory. The `dist` directory is a symlink that Netlify can properly resolve during deployment.
 
 ## Usage
 
