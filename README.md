@@ -35,9 +35,14 @@ https://ipsumify.com/
 
 This project has been migrated to Nuxt 4.2.x using the new directory structure. If you're migrating a similar project, see the comprehensive migration guide:
 
-📖 **[Nuxt 4.0 → 4.2.x Migration Guide](./NUXT_4_MIGRATION_GUIDE.md)**
+### 📖 Documentation Links
 
-The guide covers:
+- **[Nuxt 4.0 → 4.2.x Migration Guide](./NUXT_4_MIGRATION_GUIDE.md)** - Complete step-by-step migration guide
+- **[Netlify Deployment Guide](./NETLIFY_DEPLOYMENT.md)** - Complete guide for deploying Nuxt 4 static sites to Netlify
+
+### Migration Guide Coverage
+
+The migration guide covers:
 
 - Nuxt 4.0 → 4.2.x upgrade steps
 - Directory structure migration (new `app/` structure)
@@ -45,11 +50,9 @@ The guide covers:
 - Nuxt Content 2.x → 3.x migration
 - Configuration updates and common issues
 
-📖 **[Netlify Deployment Guide](./NETLIFY_DEPLOYMENT.md)** - Complete guide for deploying Nuxt 4 static sites to Netlify
-
 ## Prerequisites
 
-- Node.js 20.x or higher
+- Node.js 22.x (recommended) or 20.x minimum
 - Yarn 1.22.22
 
 ## Installation
@@ -163,7 +166,7 @@ Generate a static site:
 yarn generate
 ```
 
-The generated files will be in `.output/public`
+The generated files will be in `.output/public` (locally). For Netlify deployment, use `dist` as the publish directory (see Deployment section).
 
 Preview the production build:
 
@@ -173,7 +176,9 @@ yarn preview
 
 ## Deployment to Netlify
 
-This project is configured for easy deployment to Netlify. **See [NETLIFY_DEPLOYMENT.md](./NETLIFY_DEPLOYMENT.md) for complete deployment guide.**
+This project is configured for easy deployment to Netlify.
+
+**📖 See [NETLIFY_DEPLOYMENT.md](./NETLIFY_DEPLOYMENT.md) for the complete deployment guide with troubleshooting and best practices.**
 
 ### Quick Setup
 
@@ -197,7 +202,7 @@ The `netlify.toml` file must use these exact settings:
 **Important:**
 
 - ✅ Use `publish = "dist"` (NOT `.output/public`)
-- ✅ Use `command = "yarn generate` (no modifications)
+- ✅ Use `command = "yarn generate"` (no modifications)
 - ✅ Match Node version to your `.nvmrc` file
 - ✅ Let Netlify handle the directory mapping - no copy steps needed
 
