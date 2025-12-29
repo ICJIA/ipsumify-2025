@@ -177,7 +177,7 @@ This project is configured for easy deployment to Netlify:
 2. In Netlify dashboard, create a new site from Git
 3. Netlify will automatically detect Nuxt and use the build settings from `netlify.toml`:
    - Build command: `yarn generate`
-   - Publish directory: `.output/public`
+   - Publish directory: `dist`
    - Node version: 20
 
 The site will be automatically deployed on every push to your main branch.
