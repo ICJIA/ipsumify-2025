@@ -7,8 +7,7 @@
     "scripts": {
         "build": "nuxt build",
         "dev": "nuxt dev",
-        "generate": "nuxt generate && npm run copy-dist",
-        "copy-dist": "rm -rf dist && cp -r .output/public dist",
+        "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
         "a11y:audit": "node scripts/accessibility-audit.mjs"
