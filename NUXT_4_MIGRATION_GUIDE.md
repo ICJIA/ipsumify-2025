@@ -571,22 +571,24 @@ yarn vue-tsc --noEmit
 
 ### 8.1 Netlify Deployment
 
-No changes needed if using standard configuration:
+Configure Netlify to use the `dist` directory (Nuxt creates a symlink from `dist` to `.output/public`):
 
 ```toml
 # netlify.toml
 [build]
   command = "yarn generate"
-  publish = ".output/public"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
 ```
 
+**Note:** While Nuxt generates files to `.output/public` locally, Netlify's build environment uses `dist` as the publish directory. The `dist` directory is a symlink to `.output/public` that Netlify can properly resolve.
+
 **Verify:**
 
 - Build command: `yarn generate` or `npm run generate`
-- Publish directory: `.output/public`
+- Publish directory: `dist` (not `.output/public`)
 - Node version: 20+
 
 ### 8.2 Vercel Deployment
