@@ -16,6 +16,7 @@ A modern, browser-based Lorem Ipsum generator built with Nuxt 4 and Vuetify. Thi
 - Download as .md, .txt, or .html files
 - Dark/Light theme support
 - No wrapping option for specific use cases
+- Comprehensive accessibility testing with axe-core
 
 ## Site
 
@@ -26,6 +27,9 @@ https://ipsumify.com/
 - **Nuxt 4** - Vue.js framework
 - **Vuetify 3** - Material Design component framework
 - **Vue 3** - Progressive JavaScript framework
+- **ES6 Modules** - Modern JavaScript module system
+- **axe-core** - Accessibility testing engine
+- **Puppeteer** - Headless browser automation for testing
 
 ## Prerequisites
 
@@ -57,6 +61,84 @@ yarn dev
 
 The app will be available at `http://localhost:3000`
 
+### Available Scripts
+
+- `yarn dev` - Start the development server
+- `yarn build` - Build the application for production
+- `yarn generate` - Generate a static site
+- `yarn preview` - Preview the production build locally
+- `yarn a11y:audit` - Run a full accessibility audit (see below)
+
+## Accessibility Testing
+
+This project includes comprehensive accessibility testing using [axe-core](https://www.deque.com/axe/), the same engine powering Google Lighthouse and other industry-standard accessibility tools.
+
+### Running a Full Accessibility Audit
+
+The accessibility audit script tests your application across multiple viewports and themes to ensure WCAG compliance:
+
+1. **Start the development server** (required for the audit):
+
+```bash
+yarn dev
+```
+
+2. **In a separate terminal, run the audit**:
+
+```bash
+yarn a11y:audit
+```
+
+The audit script will:
+
+- Check that the dev server is running on `http://localhost:3000`
+- Read URLs from `public/sitemap.xml`
+- Test each URL across multiple viewports:
+  - Desktop (1920x1080)
+  - Tablet (768x1024)
+  - Mobile (375x812)
+- Test both dark and light themes
+- Generate comprehensive reports
+
+### Audit Outputs
+
+After running the audit, you'll find the following files in `public/documentation/accessibility/`:
+
+- **`index.html`** - Comprehensive HTML report with:
+
+  - Summary statistics (violations, passes, pages tested)
+  - Violations grouped by rule
+  - Detailed violation information with impact levels
+  - Full test results for all pages, viewports, and themes
+  - Information about axe-core and accessibility standards
+
+- **`violations.json`** - JSON file containing all accessibility violations
+- **`errors.json`** - Same as violations.json (for compatibility)
+
+The script will exit with:
+
+- **Exit code 0** if no violations are found
+- **Exit code 1** if violations are detected
+
+### What Gets Tested
+
+The audit checks for WCAG 2.1 Level A and AA compliance, including:
+
+- Semantic HTML and ARIA attributes
+- Keyboard navigation
+- Color contrast ratios
+- Focus management
+- Form labels
+- Image alt text
+- Heading structure
+- Landmark regions
+- Interactive element accessibility
+- Language attributes
+
+### Viewing the Report
+
+After running the audit, open `public/documentation/accessibility/index.html` in your browser to view the detailed report.
+
 ## Building for Production
 
 Generate a static site:
@@ -86,6 +168,14 @@ This project is configured for easy deployment to Netlify:
 
 The site will be automatically deployed on every push to your main branch.
 
+### Netlify Configuration
+
+The `netlify.toml` file contains the deployment configuration:
+
+- Build command: `yarn generate`
+- Publish directory: `.output/public`
+- Node version: 20
+
 ## Usage
 
 1. Open the application in your web browser
@@ -106,11 +196,27 @@ ipsumify-2025/
 │   └── index.vue      # Main page
 ├── plugins/           # Nuxt plugins
 │   └── vuetify.ts     # Vuetify configuration
+├── scripts/           # Build and testing scripts
+│   └── accessibility-audit.mjs  # ES6 accessibility audit script
+├── public/            # Static assets
+│   ├── documentation/
+│   │   └── accessibility/  # Accessibility audit reports
+│   │       ├── index.html  # HTML audit report
+│   │       ├── violations.json  # JSON violations data
+│   │       └── errors.json  # JSON errors data
+│   └── sitemap.xml    # Sitemap for audit script
 ├── app.vue            # Root component
 ├── nuxt.config.ts     # Nuxt configuration
 ├── netlify.toml       # Netlify deployment config
-└── package.json       # Dependencies
+└── package.json       # Dependencies and scripts
 ```
+
+## Code Standards
+
+- **ES6 Modules**: The project uses ES6 module syntax (`import`/`export`)
+- **TypeScript**: Configuration files use TypeScript
+- **Accessibility**: WCAG 2.1 Level A and AA compliance
+- **Modern JavaScript**: Leverages modern JavaScript features and syntax
 
 ## Credits
 
