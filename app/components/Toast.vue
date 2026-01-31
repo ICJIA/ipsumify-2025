@@ -3,11 +3,15 @@
     :model-value="show"
     :timeout="3000"
     location="top"
-    :color="isDark ? 'grey-darken-3' : 'white'"
-    elevation="24"
+    color="success"
+    elevation="8"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    class="modern-toast"
   >
     <div class="d-flex align-center">
-      <v-icon color="success" class="mr-2">mdi-check-circle</v-icon>
+      <v-icon class="mr-3" aria-hidden="true">mdi-check-circle</v-icon>
       <span class="font-weight-medium">{{ message }}</span>
     </div>
   </v-snackbar>
@@ -30,3 +34,8 @@ defineProps({
 })
 </script>
 
+<style>
+.modern-toast .v-snackbar__wrapper {
+  border-radius: 12px !important;
+}
+</style>

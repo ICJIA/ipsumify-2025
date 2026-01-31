@@ -1,15 +1,26 @@
 <template>
-  <v-main role="main">
-    <v-container class="max-w-4xl mx-auto pa-3 pa-sm-6">
+  <v-main
+    role="main"
+    :class="isDark ? 'gradient-bg' : 'gradient-bg-light'"
+  >
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <v-container
+      id="main-content"
+      class="max-w-5xl mx-auto pa-4 pa-sm-6 pa-md-8 fade-in"
+      tabindex="-1"
+    >
       <!-- Top navigation with reset and theme controls -->
-      <div class="d-flex justify-space-between pt-2">
+      <nav class="d-flex justify-space-between align-center py-4 mb-6">
         <ResetButton
           :is-dark="isDark"
           aria-label="Reset options"
           @reset="resetOptions"
         />
+        <div class="modern-badge">
+          <span class="text-primary font-weight-bold">v1.0</span>
+        </div>
         <ThemeToggle :is-dark="isDark" @toggle="toggleTheme" />
-      </div>
+      </nav>
 
       <!-- Toast notification -->
       <Toast
@@ -18,210 +29,276 @@
         :is-dark="isDark"
       />
 
-      <!-- Header section -->
-      <header role="banner">
+      <!-- Screen reader announcement for loading state -->
+      <div
+        class="sr-only"
+        aria-live="polite"
+        aria-busy="isLoading"
+        :aria-hidden="!isLoading && !generatedText"
+      >
+        {{ isLoading ? 'Generating content...' : generatedText ? 'Content ready.' : '' }}
+      </div>
+
+      <!-- Hero section -->
+      <header role="banner" class="mb-10 mb-md-12">
         <v-card
-          class="mb-8 mb-sm-12 pa-4 pa-sm-8 rounded-xl text-center"
-          :color="isDark ? 'grey-darken-4' : 'blue-lighten-5'"
-          elevation="2"
+          class="hero-gradient rounded-xl pa-8 pa-sm-10 pa-md-12 text-center position-relative overflow-hidden"
+          elevation="0"
         >
-          <h1
-            class="text-h3 text-sm-h4 font-serif mb-4 mx-auto"
-            :class="isDark ? 'text-blue-lighten-2' : 'text-blue-darken-2'"
-          >
-            Ipsumify: A Lorem Ipsum Generator
-          </h1>
-          <p
-            class="text-body-1 text-sm-body-2 max-w-2xl mx-auto"
-            :class="isDark ? 'text-grey-lighten-1' : 'text-grey-darken-1'"
-          >
-            Generate structured placeholder text in markdown format for your
-            projects.
-          </p>
+          <div class="position-relative" style="z-index: 1;">
+            <div class="mb-4">
+              <v-icon
+                size="48"
+                color="white"
+                class="float-icon opacity-90"
+                aria-hidden="true"
+              >
+                mdi-text-box-multiple-outline
+              </v-icon>
+            </div>
+            <h1
+              class="text-h4 text-sm-h3 text-md-h2 font-weight-bold mb-4 mx-auto text-white"
+              style="letter-spacing: -0.03em; line-height: 1.1;"
+            >
+              Ipsumify
+            </h1>
+            <p
+              class="text-body-1 text-sm-h6 font-weight-regular max-w-xl mx-auto text-white opacity-90"
+              style="line-height: 1.5;"
+            >
+              Generate beautiful, structured placeholder text in markdown format
+            </p>
+          </div>
         </v-card>
       </header>
 
-      <!-- Instructions panel -->
-      <v-card
-        class="mb-6 mb-sm-8 pa-4 pa-sm-6 rounded-xl"
-        :color="isDark ? 'grey-darken-4' : 'white'"
-        elevation="2"
-      >
-        <p
-          class="text-center"
-          :class="isDark ? 'text-grey-lighten-1' : 'text-grey-darken-2'"
-        >
-          Configure your options below and generate customized markdown content.
-        </p>
-      </v-card>
-
-      <!-- Options grid -->
-      <v-row class="mb-6 mb-sm-8">
-        <v-col cols="12" sm="6">
+      <!-- Options Section -->
+      <section class="mb-8 mb-md-10">
+        <div class="options-grid">
+          <!-- Basic Options -->
           <v-card
-            class="pa-4 pa-sm-6 rounded-xl"
-            :color="isDark ? 'grey-darken-4' : 'white'"
-            elevation="2"
+            :class="[
+              'rounded-xl pa-5 pa-sm-6 glow-border interactive-scale',
+              isDark ? 'glass-card' : 'glass-card-light'
+            ]"
+            elevation="0"
           >
-            <h2
-              class="font-weight-bold mb-4 text-h6 border-b pb-2"
-              :class="isDark ? 'text-grey-lighten-4' : 'text-grey-darken-4'"
-            >
-              Basic Options
-            </h2>
-            <div class="d-flex flex-column ga-3">
+            <div class="d-flex align-center mb-5">
+              <v-icon
+                :color="isDark ? 'accent' : 'primary'"
+                class="mr-3"
+                aria-hidden="true"
+              >
+                mdi-tune-variant
+              </v-icon>
+              <h2 class="text-h6 font-weight-bold text-on-surface">
+                Basic Options
+              </h2>
+            </div>
+            <div class="d-flex flex-column ga-2">
               <v-checkbox
                 v-for="[key, label] in basicOptions"
                 :key="key"
                 v-model="options[key]"
                 :label="label"
                 hide-details
-                density="compact"
+                density="comfortable"
+                color="primary"
+                class="modern-checkbox"
               />
             </div>
           </v-card>
-        </v-col>
 
-        <v-col cols="12" sm="6">
+          <!-- Style Options -->
           <v-card
-            class="pa-4 pa-sm-6 rounded-xl"
-            :color="isDark ? 'grey-darken-4' : 'white'"
-            elevation="2"
+            :class="[
+              'rounded-xl pa-5 pa-sm-6 glow-border interactive-scale',
+              isDark ? 'glass-card' : 'glass-card-light'
+            ]"
+            elevation="0"
           >
-            <h2
-              class="font-weight-bold mb-4 text-h6 border-b pb-2"
-              :class="isDark ? 'text-grey-lighten-4' : 'text-grey-darken-4'"
-            >
-              Style Options
-            </h2>
-            <div class="d-flex flex-column ga-3">
+            <div class="d-flex align-center mb-5">
+              <v-icon
+                :color="isDark ? 'accent' : 'primary'"
+                class="mr-3"
+                aria-hidden="true"
+              >
+                mdi-palette-outline
+              </v-icon>
+              <h2 class="text-h6 font-weight-bold text-on-surface">
+                Style Options
+              </h2>
+            </div>
+            <div class="d-flex flex-column ga-2">
               <v-checkbox
                 v-for="[key, label] in styleOptions"
                 :key="key"
                 v-model="options[key]"
                 :label="label"
                 hide-details
-                density="compact"
+                density="comfortable"
+                color="primary"
+                class="modern-checkbox"
               />
-              <div class="mt-4">
-                <v-text-field
-                  v-model.number="options.numBlocks"
-                  type="number"
-                  density="compact"
-                  variant="outlined"
-                  label="Number of blocks"
-                  min="1"
-                  max="10"
-                  hide-details
-                  style="max-width: 120px"
-                />
+              <div class="mt-5 pt-4" style="border-top: 1px solid rgba(255,255,255,0.08);">
+                  <v-text-field
+                    v-model.number="options.numBlocks"
+                    type="number"
+                    density="comfortable"
+                    variant="outlined"
+                    label="Number of blocks"
+                    hint="Enter a value between 1 and 10"
+                    persistent-hint
+                    min="1"
+                    max="10"
+                    class="modern-input"
+                    style="max-width: 160px"
+                  />
+                </div>
               </div>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+            </v-card>
+        </div>
+      </section>
 
-      <!-- Action buttons -->
-      <div class="mb-6 mb-sm-8">
+      <!-- Generate Button -->
+      <section class="mb-8 mb-md-10">
         <v-btn
           @click="generateMarkdown"
           :disabled="isLoading"
-          color="primary"
-          size="large"
+          :loading="isLoading"
+          size="x-large"
           block
-          class="rounded-xl"
+          class="btn-gradient rounded-xl py-4"
+          height="64"
+          :aria-busy="isLoading"
         >
-          {{ isLoading ? "Generating..." : "Generate some markdown!" }}
+          <v-icon start size="24" aria-hidden="true" class="mr-2">
+            {{ isLoading ? 'mdi-loading' : 'mdi-auto-fix' }}
+          </v-icon>
+          <span class="text-h6 font-weight-bold" style="letter-spacing: 0.02em;">
+            {{ isLoading ? "Generating..." : "Generate Markdown" }}
+          </span>
         </v-btn>
-      </div>
+      </section>
 
-      <!-- Loading spinner -->
-      <div v-if="isLoading" class="mt-6">
-        <div class="d-flex justify-center pa-12">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            size="64"
-          ></v-progress-circular>
-        </div>
-      </div>
-
-      <!-- Generated content -->
-      <div v-if="!isLoading && generatedText" class="mt-6">
-        <div
-          class="d-flex flex-column flex-sm-row justify-space-between ga-3 ga-sm-2 mb-4"
+      <!-- Loading State -->
+      <section
+        v-if="isLoading"
+        class="mb-8"
+        aria-hidden="true"
+      >
+        <v-card
+          :class="['rounded-xl pa-8', isDark ? 'glass-card' : 'glass-card-light']"
+          elevation="0"
         >
+          <div class="skeleton-shimmer rounded-lg mb-4" style="height: 24px; width: 60%;"></div>
+          <div class="skeleton-shimmer rounded-lg mb-3" style="height: 16px; width: 100%;"></div>
+          <div class="skeleton-shimmer rounded-lg mb-3" style="height: 16px; width: 90%;"></div>
+          <div class="skeleton-shimmer rounded-lg mb-3" style="height: 16px; width: 95%;"></div>
+          <div class="skeleton-shimmer rounded-lg" style="height: 16px; width: 75%;"></div>
+        </v-card>
+      </section>
+
+      <!-- Generated Content -->
+      <section v-if="!isLoading && generatedText" class="mb-8 fade-in">
+        <!-- Action buttons -->
+        <div class="d-flex flex-column flex-sm-row justify-space-between align-stretch align-sm-center ga-3 mb-5">
           <v-btn
             @click="copyToClipboard"
-            :color="copySuccess ? 'primary' : 'success'"
-            class="rounded-xl"
+            :color="copySuccess ? 'success' : undefined"
+            :class="[
+              'rounded-xl px-6',
+              copySuccess ? '' : (isDark ? 'btn-secondary' : 'btn-secondary-light')
+            ]"
+            size="large"
+            :variant="copySuccess ? 'flat' : 'outlined'"
           >
-            <v-icon start>mdi-content-copy</v-icon>
+            <v-icon start aria-hidden="true">
+              {{ copySuccess ? 'mdi-check-circle' : 'mdi-content-copy' }}
+            </v-icon>
             {{ copySuccess ? "Copied!" : "Copy to Clipboard" }}
           </v-btn>
-          <div class="d-flex ga-2">
+          <div class="d-flex ga-2 flex-wrap">
             <v-btn
               v-for="ext in ['.md', '.txt', '.html']"
               :key="ext"
               @click="downloadFile(ext)"
-              color="purple"
-              class="rounded-xl"
+              :class="['rounded-xl', isDark ? 'btn-secondary' : 'btn-secondary-light']"
+              variant="outlined"
+              :aria-label="`Download as ${ext} file`"
             >
-              Download {{ ext }}
+              <v-icon start size="18" aria-hidden="true">mdi-download</v-icon>
+              {{ ext }}
             </v-btn>
           </div>
         </div>
+
+        <!-- Output card -->
         <v-card
-          class="pa-4 pa-sm-6 rounded-xl font-mono text-body-2"
-          :color="isDark ? 'grey-darken-4' : 'white'"
-          elevation="2"
+          :class="[
+            'rounded-xl pa-5 pa-sm-6',
+            isDark ? 'code-output' : 'code-output-light'
+          ]"
+          elevation="0"
         >
+          <div class="d-flex align-center justify-space-between mb-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <div class="d-flex align-center">
+              <v-icon size="18" class="mr-2 opacity-60" aria-hidden="true">mdi-code-braces</v-icon>
+              <span class="text-caption text-uppercase font-weight-bold opacity-60" style="letter-spacing: 0.1em;">
+                Generated Output
+              </span>
+            </div>
+            <span class="text-caption opacity-50">
+              {{ generatedText.length }} characters
+            </span>
+          </div>
           <pre
-            :class="
-              options.noWrapping
-                ? 'overflow-x-auto whitespace-nowrap'
-                : 'whitespace-pre-wrap'
-            "
-            class="ma-0"
-            >{{
-              options.noWrapping
-                ? generatedText.replace(/\n/g, " ")
-                : generatedText
-            }}</pre
-          >
+            :class="[
+              options.noWrapping ? 'overflow-x-auto' : 'whitespace-pre-wrap',
+              'text-body-2 ma-0'
+            ]"
+            style="line-height: 1.7; font-family: 'JetBrains Mono', 'Fira Code', monospace;"
+          ><template v-if="options.noWrapping"><span v-html="formatNoWrap(generatedText)"></span></template><template v-else>{{ generatedText }}</template></pre>
         </v-card>
-      </div>
+      </section>
 
       <!-- Footer -->
       <footer
         role="contentinfo"
-        class="mt-8 mt-sm-16 pt-6 pt-sm-8 border-t text-center"
-        :class="
-          isDark
-            ? 'border-grey-darken-2 text-grey-lighten-1'
-            : 'border-grey-lighten-2 text-grey-darken-1'
-        "
+        class="mt-12 mt-md-16 pt-8 text-center"
+        :style="{
+          borderTop: isDark
+            ? '1px solid rgba(255,255,255,0.06)'
+            : '1px solid rgba(0,0,0,0.06)'
+        }"
       >
-        <div class="d-flex justify-center align-center ga-4">
+        <div class="d-flex justify-center align-center ga-6 flex-wrap mb-4">
           <a
             href="https://github.com/ICJIA/ipsumify-2025"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-decoration-none d-inline-flex align-center"
-            :class="isDark ? 'text-grey-lighten-1' : 'text-grey-darken-1'"
+            :class="[
+              'text-decoration-none d-inline-flex align-center pa-2 rounded-lg footer-link',
+              isDark ? 'text-on-surface' : 'text-on-surface'
+            ]"
           >
-            <v-icon class="mr-2">mdi-github</v-icon>
-            View on GitHub
+            <v-icon class="mr-2" size="20" aria-hidden="true">mdi-github</v-icon>
+            <span class="font-weight-medium">GitHub</span>
           </a>
           <a
             href="/documentation/accessibility/index.html"
-            class="text-decoration-none d-inline-flex align-center"
-            :class="isDark ? 'text-grey-lighten-1' : 'text-grey-darken-1'"
+            :class="[
+              'text-decoration-none d-inline-flex align-center pa-2 rounded-lg footer-link',
+              isDark ? 'text-on-surface' : 'text-on-surface'
+            ]"
           >
-            <v-icon class="mr-2">mdi-accessibility</v-icon>
-            Accessibility Report
+            <v-icon class="mr-2" size="20" aria-hidden="true">mdi-shield-check</v-icon>
+            <span class="font-weight-medium">Accessibility</span>
           </a>
         </div>
+        <p class="text-caption opacity-50 mb-0">
+          Built with Nuxt, Vuetify, and care for accessibility
+        </p>
       </footer>
     </v-container>
   </v-main>
@@ -270,59 +347,13 @@ HAVING total > 100;`,
 
 // Latin words
 const latinWords = [
-  "Aether",
-  "Bellum",
-  "Carmen",
-  "Deus",
-  "Enim",
-  "Fatum",
-  "Gloria",
-  "Homo",
-  "Idem",
-  "Jugum",
-  "Lumen",
-  "Mare",
-  "Nox",
-  "Opus",
-  "Pax",
-  "Quam",
-  "Rex",
-  "Sol",
-  "Tempus",
-  "Umbra",
-  "Vita",
-  "Vox",
-  "Terra",
-  "Sanctum",
-  "Virtus",
-  "Manus",
-  "Caelum",
-  "Anima",
-  "Stella",
-  "Ventus",
-  "Magnus",
-  "Patria",
-  "Fortis",
-  "Sapiens",
-  "Veritas",
-  "Natura",
-  "Vis",
-  "Lex",
-  "Fides",
-  "Amor",
-  "Mors",
-  "Pater",
-  "Mater",
-  "Filius",
-  "Roma",
-  "Diem",
-  "Numen",
-  "Corpus",
-  "Annus",
-  "Ignis",
-  "Aqua",
-  "Arbor",
-  "Mons",
+  "Aether", "Bellum", "Carmen", "Deus", "Enim", "Fatum", "Gloria", "Homo",
+  "Idem", "Jugum", "Lumen", "Mare", "Nox", "Opus", "Pax", "Quam", "Rex",
+  "Sol", "Tempus", "Umbra", "Vita", "Vox", "Terra", "Sanctum", "Virtus",
+  "Manus", "Caelum", "Anima", "Stella", "Ventus", "Magnus", "Patria",
+  "Fortis", "Sapiens", "Veritas", "Natura", "Vis", "Lex", "Fides", "Amor",
+  "Mors", "Pater", "Mater", "Filius", "Roma", "Diem", "Numen", "Corpus",
+  "Annus", "Ignis", "Aqua", "Arbor", "Mons",
 ];
 
 // State
@@ -384,52 +415,12 @@ const generateRandomHeading = () => {
 
 const generateParagraph = () => {
   const words = [
-    "Lorem",
-    "ipsum",
-    "dolor",
-    "sit",
-    "amet",
-    "consectetur",
-    "adipiscing",
-    "elit",
-    "caligine",
-    "fassaque",
-    "portitor",
-    "fine",
-    "summo",
-    "bis",
-    "est",
-    "orbus",
-    "aether",
-    "bellum",
-    "carmen",
-    "deus",
-    "enim",
-    "fatum",
-    "gloria",
-    "homo",
-    "idem",
-    "jugum",
-    "lumen",
-    "mare",
-    "nox",
-    "opus",
-    "pax",
-    "quam",
-    "rex",
-    "sol",
-    "tempus",
-    "umbra",
-    "vita",
-    "vox",
-    "terra",
-    "sanctum",
-    "virtus",
-    "manus",
-    "caelum",
-    "anima",
-    "stella",
-    "ventus",
+    "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing",
+    "elit", "caligine", "fassaque", "portitor", "fine", "summo", "bis",
+    "est", "orbus", "aether", "bellum", "carmen", "deus", "enim", "fatum",
+    "gloria", "homo", "idem", "jugum", "lumen", "mare", "nox", "opus",
+    "pax", "quam", "rex", "sol", "tempus", "umbra", "vita", "vox",
+    "terra", "sanctum", "virtus", "manus", "caelum", "anima", "stella", "ventus",
   ];
 
   const getRandomWord = () => words[Math.floor(Math.random() * words.length)];
@@ -528,13 +519,25 @@ const generateContent = () => {
       content += `See [reference link][${i + 1}] for more information.\n\n`;
       content += `[${i + 1}]: https://example.com/ref${i + 1}\n`;
     } else if (!options.value.noExternalLinks && i % 3 === 0) {
-      content += `See [inline link](https://example.com/page${
-        i + 1
-      }) for more information.\n\n`;
+      content += `See [inline link](https://example.com/page${i + 1}) for more information.\n\n`;
     }
   }
 
   return content;
+};
+
+// Format text for no-wrap mode: replace paragraph breaks with <br> tags
+const formatNoWrap = (text) => {
+  // First, escape any HTML to prevent XSS
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  // Replace double newlines (paragraph breaks) with <br><br>
+  // Replace single newlines with a space
+  return escaped
+    .replace(/\n\n+/g, '<br><br>')
+    .replace(/\n/g, ' ');
 };
 
 const generateMarkdown = () => {
@@ -566,10 +569,7 @@ const copyToClipboard = async () => {
 
 const getFormattedDate = () => {
   const date = new Date();
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${String(date.getDate()).padStart(2, "0")}`;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
 const markdownToHtml = (markdown) => {
@@ -604,51 +604,32 @@ const markdownToHtml = (markdown) => {
       margin: 2rem auto; 
       padding: 0 1rem; 
       font-family: system-ui, -apple-system, sans-serif; 
-      line-height: 1.6; 
+      line-height: 1.6;
+      color: #1e293b;
     }
     pre { 
-      background: #f5f5f5; 
+      background: #f1f5f9; 
       padding: 1rem; 
       overflow-x: auto; 
       margin: 1.5rem 0;
+      border-radius: 8px;
     }
     code { 
-      background: #f5f5f5; 
+      background: #f1f5f9; 
       padding: 0.2rem 0.4rem; 
-      border-radius: 3px; 
+      border-radius: 4px; 
+      font-family: 'JetBrains Mono', monospace;
     }
     ul { 
       margin: 1.5rem 0;
       padding-left: 2rem;
       list-style-type: disc;
     }
-    li {
-      margin: 0;
-      padding: 0;
-      line-height: 1.5;
-    }
-    h1, h2, h3 { 
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      margin: 1rem 0;
-    }
-    ul + p,
-    ul + h1,
-    ul + h2,
-    ul + h3,
-    ul + pre {
-      margin-top: 1.5rem;
-      margin-left: 0;
-    }
-    a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
+    li { margin: 0; padding: 0; line-height: 1.5; }
+    h1, h2, h3 { margin-top: 2rem; margin-bottom: 1rem; }
+    p { margin: 1rem 0; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -719,3 +700,59 @@ onMounted(() => {
   }
 });
 </script>
+
+<style>
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #2563EB, #7C3AED);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 8px 0;
+  transition: left 0.2s ease;
+}
+.skip-link:focus {
+  left: 0;
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
+}
+
+/* Options grid - side by side on tablet and up */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .options-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .options-grid {
+    gap: 2rem;
+  }
+}
+
+.footer-link {
+  transition: all 0.2s ease;
+}
+.footer-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+</style>

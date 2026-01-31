@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accessibility Audit Report - 12/29/2025</title>
+  <title>Accessibility Audit Report - 1/31/2026</title>
   <style>
     * {
       margin: 0;
@@ -192,6 +192,146 @@
       font-family: 'Courier New', monospace;
       font-size: 0.9em;
     }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal.show {
+      display: block;
+    }
+    
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 30px;
+      border: 1px solid #888;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1001;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .modal-header h2 {
+      margin: 0;
+      color: #0a3d0a;
+    }
+    
+    .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 20px;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+    }
+    
+    .test-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .test-item {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      border-left: 4px solid #1976D2;
+    }
+    
+    .test-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    
+    .test-id {
+      font-weight: 600;
+      color: #1976D2;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95em;
+    }
+    
+    .test-description {
+      color: #555;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+    
+    .test-tags {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .test-tag {
+      background: #e3f2fd;
+      color: #1565c0;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: 500;
+    }
+    
+    .test-help-link {
+      margin-top: 8px;
+      display: inline-block;
+    }
+    
+    .test-help-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    
+    .test-help-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .clickable-stat {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .clickable-stat:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
   </style>
 </head>
 <body>
@@ -199,7 +339,7 @@
     <h1>🔍 Accessibility Audit Report</h1>
     
     <div class="meta">
-      <p><strong>Generated:</strong> 12/29/2025, 9:03:02 AM</p>
+      <p><strong>Generated:</strong> 1/31/2026, 4:54:31 PM</p>
       <p><strong>axe-core version:</strong> 4.11.0</p>
       <p><strong>Pages tested:</strong> 1</p>
       <p><strong>Viewports tested:</strong> desktop, tablet, mobile</p>
@@ -216,9 +356,9 @@
         <span class="number">66</span>
         <span class="label">Passes</span>
       </div>
-      <div class="stat-card" style="background: #e3f2fd; border-color: #90caf9; color: #1565c0;">
+      <div class="stat-card clickable-stat" id="totalTestsCard" style="background: #e3f2fd; border-color: #90caf9; color: #1565c0;">
         <span class="number">534</span>
-        <span class="label">Total Tests Run</span>
+        <span class="label">Total Tests Run <span style="font-size: 0.7em;">(click to view all tests)</span></span>
       </div>
       <div class="stat-card success">
         <span class="number">1</span>
@@ -404,10 +544,1786 @@
       <p style="margin-top: 15px;"><strong>Note:</strong> While automated testing with axe-core covers many accessibility requirements, a complete accessibility audit should also include manual testing with screen readers, keyboard-only navigation, and user testing with people who have disabilities.</p>
     </div>
     
+    <!-- Modal for All Tests -->
+    <div id="testsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>All axe-core Tests Run</h2>
+          <span class="close" id="closeModal">&times;</span>
+        </div>
+        <p style="margin-bottom: 20px; color: #666;">
+          This is a complete list of all 89 unique accessibility tests that axe-core performed during this audit. 
+          These tests cover WCAG 2.1 Level A and AA standards, IITA requirements, and ADA Title II compliance.
+        </p>
+        <ul class="test-list">
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">accesskeys</div>
+                  <div class="test-description">Ensure every accesskey attribute value is unique</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/accesskeys?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">area-alt</div>
+                  <div class="test-description">Ensure <area> elements of image maps have alternative text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag244</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.4.4</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/area-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-allowed-attr</div>
+                  <div class="test-description">Ensure an element's role supports its ARIA attributes</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-allowed-role</div>
+                  <div class="test-description">Ensure role attribute has an appropriate value for the element</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-allowed-role?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-braille-equivalent</div>
+                  <div class="test-description">Ensure aria-braillelabel and aria-brailleroledescription have a non-braille equivalent</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-braille-equivalent?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-command-name</div>
+                  <div class="test-description">Ensure every ARIA button, link and menuitem has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.9.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-command-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-conditional-attr</div>
+                  <div class="test-description">Ensure ARIA attributes are used as described in the specification of the element's role</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-conditional-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-deprecated-role</div>
+                  <div class="test-description">Ensure elements do not use deprecated roles</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-deprecated-role?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-dialog-name</div>
+                  <div class="test-description">Ensure every ARIA dialog and alertdialog node has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-dialog-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-hidden-body</div>
+                  <div class="test-description">Ensure aria-hidden="true" is not present on the document body.</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-hidden-body?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-hidden-focus</div>
+                  <div class="test-description">Ensure aria-hidden elements are not focusable nor contain focusable elements</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-hidden-focus?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-input-field-name</div>
+                  <div class="test-description">Ensure every ARIA input field has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-input-field-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-meter-name</div>
+                  <div class="test-description">Ensure every ARIA meter node has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-meter-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-progressbar-name</div>
+                  <div class="test-description">Ensure every ARIA progressbar node has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-progressbar-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-prohibited-attr</div>
+                  <div class="test-description">Ensure ARIA attributes are not prohibited for an element's role</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-prohibited-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-required-attr</div>
+                  <div class="test-description">Ensure elements with ARIA roles have all required ARIA attributes</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-required-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-required-children</div>
+                  <div class="test-description">Ensure elements with an ARIA role that require child roles contain them</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-required-children?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-required-parent</div>
+                  <div class="test-description">Ensure elements with an ARIA role that require parent roles are contained by them</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-required-parent?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-roles</div>
+                  <div class="test-description">Ensure all elements with a role attribute use a valid value</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-roles?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-text</div>
+                  <div class="test-description">Ensure role="text" is used on elements with no focusable descendants</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-text?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-toggle-field-name</div>
+                  <div class="test-description">Ensure every ARIA toggle field has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-toggle-field-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-tooltip-name</div>
+                  <div class="test-description">Ensure every ARIA tooltip node has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-tooltip-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-treeitem-name</div>
+                  <div class="test-description">Ensure every ARIA treeitem node has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-treeitem-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-valid-attr</div>
+                  <div class="test-description">Ensure attributes that begin with aria- are valid ARIA attributes</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-valid-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">aria-valid-attr-value</div>
+                  <div class="test-description">Ensure all ARIA attributes have valid values</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/aria-valid-attr-value?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">autocomplete-valid</div>
+                  <div class="test-description">Ensure the autocomplete attribute is correct and suitable for the form field</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.forms</span><span class="test-tag">wcag21aa</span><span class="test-tag">wcag135</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.5</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.13.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/autocomplete-valid?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">avoid-inline-spacing</div>
+                  <div class="test-description">Ensure that text spacing set through style attributes can be adjusted with custom stylesheets</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">wcag21aa</span><span class="test-tag">wcag1412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.4.12</span><span class="test-tag">ACT</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/avoid-inline-spacing?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">blink</div>
+                  <div class="test-description">Ensure <blink> elements are not used</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.time-and-media</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag222</span><span class="test-tag">section508</span><span class="test-tag">section508.22.j</span><span class="test-tag">TTv5</span><span class="test-tag">TT2.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.2.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-13.8.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/blink?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">button-name</div>
+                  <div class="test-description">Ensure buttons have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.9.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">bypass</div>
+                  <div class="test-description">Ensure each page has at least one mechanism for a user to bypass navigation and jump straight to the content</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag241</span><span class="test-tag">section508</span><span class="test-tag">section508.22.o</span><span class="test-tag">TTv5</span><span class="test-tag">TT9.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.4.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-12.7.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/bypass?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">color-contrast</div>
+                  <div class="test-description">Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.color</span><span class="test-tag">wcag2aa</span><span class="test-tag">wcag143</span><span class="test-tag">TTv5</span><span class="test-tag">TT13.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.4.3</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-3.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">definition-list</div>
+                  <div class="test-description">Ensure <dl> elements are structured correctly</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.3</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/definition-list?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">dlitem</div>
+                  <div class="test-description">Ensure <dt> and <dd> elements are contained by a <dl></div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.3</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/dlitem?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">document-title</div>
+                  <div class="test-description">Ensure each HTML document contains a non-empty <title> element</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag242</span><span class="test-tag">TTv5</span><span class="test-tag">TT12.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.4.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.5.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/document-title?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">duplicate-id-aria</div>
+                  <div class="test-description">Ensure every id attribute value used in ARIA and in labels is unique</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.parsing</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/duplicate-id-aria?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">empty-heading</div>
+                  <div class="test-description">Ensure headings have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/empty-heading?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">empty-table-header</div>
+                  <div class="test-description">Ensure table headers have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/empty-table-header?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">form-field-multiple-labels</div>
+                  <div class="test-description">Ensure form field does not have multiple label elements</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.forms</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag332</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.3.3.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/form-field-multiple-labels?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">frame-focusable-content</div>
+                  <div class="test-description">Ensure <frame> and <iframe> elements with focusable content do not have tabindex=-1</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag211</span><span class="test-tag">TTv5</span><span class="test-tag">TT4.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.1.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.3.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/frame-focusable-content?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">frame-tested</div>
+                  <div class="test-description">Ensure <iframe> and <frame> elements contain the axe-core script</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">best-practice</span><span class="test-tag">review-item</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/frame-tested?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">frame-title</div>
+                  <div class="test-description">Ensure <iframe> and <frame> elements have an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.i</span><span class="test-tag">TTv5</span><span class="test-tag">TT12.d</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-2.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/frame-title?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">frame-title-unique</div>
+                  <div class="test-description">Ensure <iframe> and <frame> elements contain a unique title attribute</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT12.d</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-2.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/frame-title-unique?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">heading-order</div>
+                  <div class="test-description">Ensure the order of headings is semantically correct</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/heading-order?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">html-has-lang</div>
+                  <div class="test-description">Ensure every HTML document has a lang attribute</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.language</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag311</span><span class="test-tag">TTv5</span><span class="test-tag">TT11.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.3.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/html-has-lang?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">html-lang-valid</div>
+                  <div class="test-description">Ensure the lang attribute of the <html> element has a valid value</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.language</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag311</span><span class="test-tag">TTv5</span><span class="test-tag">TT11.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.3.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.4.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/html-lang-valid?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">html-xml-lang-mismatch</div>
+                  <div class="test-description">Ensure that HTML elements with both valid lang and xml:lang attributes agree on the base language of the page</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.language</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag311</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.3.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/html-xml-lang-mismatch?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">image-alt</div>
+                  <div class="test-description">Ensure <img> elements have alternative text or a role of none or presentation</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT7.a</span><span class="test-tag">TT7.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/image-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">image-redundant-alt</div>
+                  <div class="test-description">Ensure image alternative is not repeated as text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/image-redundant-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">input-button-name</div>
+                  <div class="test-description">Ensure input buttons have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.9.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/input-button-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">input-image-alt</div>
+                  <div class="test-description">Ensure <input type="image"> elements have alternative text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT7.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.3</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/input-image-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">label</div>
+                  <div class="test-description">Ensure every form element has a label</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.forms</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.n</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">label-title-only</div>
+                  <div class="test-description">Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.forms</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/label-title-only?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-banner-is-top-level</div>
+                  <div class="test-description">Ensure the banner landmark is at top level</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-banner-is-top-level?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-complementary-is-top-level</div>
+                  <div class="test-description">Ensure the complementary landmark or aside is at top level</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-complementary-is-top-level?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-contentinfo-is-top-level</div>
+                  <div class="test-description">Ensure the contentinfo landmark is at top level</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-contentinfo-is-top-level?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-main-is-top-level</div>
+                  <div class="test-description">Ensure the main landmark is at top level</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-main-is-top-level?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-no-duplicate-banner</div>
+                  <div class="test-description">Ensure the document has at most one banner landmark</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-no-duplicate-banner?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-no-duplicate-contentinfo</div>
+                  <div class="test-description">Ensure the document has at most one contentinfo landmark</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-no-duplicate-contentinfo?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-no-duplicate-main</div>
+                  <div class="test-description">Ensure the document has at most one main landmark</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-no-duplicate-main?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-one-main</div>
+                  <div class="test-description">Ensure the document has a main landmark</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-one-main?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">landmark-unique</div>
+                  <div class="test-description">Ensure landmarks are unique</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/landmark-unique?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">link-in-text-block</div>
+                  <div class="test-description">Ensure links are distinguished from surrounding text in a way that does not rely on color</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.color</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag141</span><span class="test-tag">TTv5</span><span class="test-tag">TT13.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.4.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-10.6.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/link-in-text-block?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">link-name</div>
+                  <div class="test-description">Ensure links have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag244</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.4.4</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-6.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/link-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">list</div>
+                  <div class="test-description">Ensure that lists are structured correctly</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/list?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">listitem</div>
+                  <div class="test-description">Ensure <li> elements are used semantically</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.structure</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/listitem?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">marquee</div>
+                  <div class="test-description">Ensure <marquee> elements are not used</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.parsing</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag222</span><span class="test-tag">TTv5</span><span class="test-tag">TT2.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.2.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-13.8.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/marquee?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">meta-refresh</div>
+                  <div class="test-description">Ensure <meta http-equiv="refresh"> is not used for delayed refresh</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.time-and-media</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag221</span><span class="test-tag">TTv5</span><span class="test-tag">TT8.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.2.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-13.1.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/meta-refresh?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">meta-viewport</div>
+                  <div class="test-description">Ensure <meta name="viewport"> does not disable text scaling and zooming</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.sensory-and-visual-cues</span><span class="test-tag">wcag2aa</span><span class="test-tag">wcag144</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.4.4</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-10.4.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/meta-viewport?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">meta-viewport-large</div>
+                  <div class="test-description">Ensure <meta name="viewport"> can scale a significant amount</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.sensory-and-visual-cues</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/meta-viewport-large?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">nested-interactive</div>
+                  <div class="test-description">Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/nested-interactive?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">no-autoplay-audio</div>
+                  <div class="test-description">Ensure <video> or <audio> elements do not autoplay audio for more than 3 seconds without a control mechanism to stop or mute the audio</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.time-and-media</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag142</span><span class="test-tag">TTv5</span><span class="test-tag">TT2.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.4.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-4.10.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/no-autoplay-audio?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">object-alt</div>
+                  <div class="test-description">Ensure <object> elements have alternative text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.6</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/object-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">page-has-heading-one</div>
+                  <div class="test-description">Ensure that the page, or at least one of its frames contains a level-one heading</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.semantics</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">presentation-role-conflict</div>
+                  <div class="test-description">Ensure elements marked as presentational do not have global ARIA or tabindex so that all screen readers ignore them</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.aria</span><span class="test-tag">best-practice</span><span class="test-tag">ACT</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/presentation-role-conflict?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">region</div>
+                  <div class="test-description">Ensure all page content is contained by landmarks</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">best-practice</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-9.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/region?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">role-img-alt</div>
+                  <div class="test-description">Ensure [role="img"] elements have alternative text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT7.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/role-img-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">scope-attr-valid</div>
+                  <div class="test-description">Ensure the scope attribute is used correctly on tables</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.tables</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/scope-attr-valid?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">scrollable-region-focusable</div>
+                  <div class="test-description">Ensure elements that have scrollable content are accessible by keyboard</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag211</span><span class="test-tag">wcag213</span><span class="test-tag">TTv5</span><span class="test-tag">TT4.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.1.1</span><span class="test-tag">EN-9.2.1.3</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-7.3.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/scrollable-region-focusable?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">select-name</div>
+                  <div class="test-description">Ensure select element has an accessible name</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.forms</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.n</span><span class="test-tag">TTv5</span><span class="test-tag">TT5.c</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-11.1.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">server-side-image-map</div>
+                  <div class="test-description">Ensure that server-side image maps are not used</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag211</span><span class="test-tag">section508</span><span class="test-tag">section508.22.f</span><span class="test-tag">TTv5</span><span class="test-tag">TT4.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.2.1.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.4</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/server-side-image-map?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">skip-link</div>
+                  <div class="test-description">Ensure all skip links have a focusable target</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">best-practice</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-12.7.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/skip-link?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">summary-name</div>
+                  <div class="test-description">Ensure summary elements have discernible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.name-role-value</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag412</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT6.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.4.1.2</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/summary-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">svg-img-alt</div>
+                  <div class="test-description">Ensure <svg> elements with an img, graphics-document or graphics-symbol role have accessible text</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag111</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT7.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.1.1</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-1.1.5</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/svg-img-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">tabindex</div>
+                  <div class="test-description">Ensure tabindex attribute values are not greater than 0</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.keyboard</span><span class="test-tag">best-practice</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/tabindex?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">table-duplicate-name</div>
+                  <div class="test-description">Ensure the <caption> element does not contain the same text as the summary attribute</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.tables</span><span class="test-tag">best-practice</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-5.2.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/table-duplicate-name?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">td-headers-attr</div>
+                  <div class="test-description">Ensure that each cell in a table that uses the headers attribute refers only to other <th> elements in that table</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.tables</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">section508</span><span class="test-tag">section508.22.g</span><span class="test-tag">TTv5</span><span class="test-tag">TT14.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-5.7.4</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/td-headers-attr?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">th-has-data-cells</div>
+                  <div class="test-description">Ensure that <th> elements and elements with role=columnheader/rowheader have data cells they describe</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.tables</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag131</span><span class="test-tag">section508</span><span class="test-tag">section508.22.g</span><span class="test-tag">TTv5</span><span class="test-tag">TT14.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.3.1</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-5.7.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/th-has-data-cells?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">valid-lang</div>
+                  <div class="test-description">Ensure lang attributes have valid values</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.language</span><span class="test-tag">wcag2aa</span><span class="test-tag">wcag312</span><span class="test-tag">TTv5</span><span class="test-tag">TT11.b</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.3.1.2</span><span class="test-tag">ACT</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-8.7.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/valid-lang?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+            <li class="test-item">
+              <div class="test-item-header">
+                <div>
+                  <div class="test-id">video-caption</div>
+                  <div class="test-description">Ensure <video> elements have captions</div>
+                </div>
+              </div>
+              
+                <div class="test-tags">
+                  <span class="test-tag">cat.text-alternatives</span><span class="test-tag">wcag2a</span><span class="test-tag">wcag122</span><span class="test-tag">section508</span><span class="test-tag">section508.22.a</span><span class="test-tag">TTv5</span><span class="test-tag">TT17.a</span><span class="test-tag">EN-301-549</span><span class="test-tag">EN-9.1.2.2</span><span class="test-tag">RGAAv4</span><span class="test-tag">RGAA-4.3.1</span>
+                </div>
+              
+              
+                <div class="test-help-link">
+                  <a href="https://dequeuniversity.com/rules/axe/4.11/video-caption?application=axeAPI" target="_blank" rel="noopener noreferrer">Learn more about this test →</a>
+                </div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+    
     <div class="footer">
-      <p>Generated by axe-core 4.11.0 on 12/29/2025, 9:03:02 AM</p>
+      <p>Generated by axe-core 4.11.0 on 1/31/2026, 4:54:31 PM</p>
       <p>For more information, visit <a href="https://www.deque.com/axe/" target="_blank">https://www.deque.com/axe/</a></p>
     </div>
   </div>
+  
+  <script>
+    // Modal functionality
+    // Function to initialize modal - works whether DOM is already loaded or not
+    function initModal() {
+      const modal = document.getElementById('testsModal');
+      const totalTestsCard = document.getElementById('totalTestsCard');
+      const closeModal = document.getElementById('closeModal');
+      
+      // Verify all elements exist
+      if (!modal || !totalTestsCard) {
+        console.error('Modal elements not found', { modal: !!modal, totalTestsCard: !!totalTestsCard });
+        return;
+      }
+      
+      // Open modal when clicking on Total Tests Run card
+      // Use event delegation to handle clicks on child elements
+      totalTestsCard.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      });
+      
+      // Close modal when clicking the X
+      if (closeModal) {
+        closeModal.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          modal.style.display = 'none';
+          document.body.style.overflow = ''; // Restore scrolling
+        });
+      }
+      
+      // Close modal when clicking outside of it (on the backdrop)
+      // Prevent clicks on modal-content from closing the modal
+      const modalContent = modal.querySelector('.modal-content');
+      if (modalContent) {
+        modalContent.addEventListener('click', function(event) {
+          event.stopPropagation(); // Prevent click from bubbling to modal backdrop
+        });
+      }
+      
+      modal.addEventListener('click', function(event) {
+        // Only close if clicking directly on the modal backdrop, not the content
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      });
+      
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+          modal.style.display = 'none';
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      });
+    }
+    
+    // Initialize modal when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initModal);
+    } else {
+      // DOM is already loaded
+      initModal();
+    }
+  </script>
 </body>
 </html>
